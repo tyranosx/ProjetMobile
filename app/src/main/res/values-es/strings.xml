@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Beta</string>
+    <string name="connect">Iniciar sesión</string>
+    <string name="identifier">Identifíquese</string>
+    <string name="email">E-mail</string>
+    <string name="password">Contraseña</string>
+    <string name="forgot_password">¿Olvidó su contraseña?</string>
+    <string name="forgot_password_message">Redirigiendo a recuperación de contraseña</string>
+    <string name="empty_fields_message">Por favor, complete todos los campos</string>
+    <string name="login_success">¡Inicio de sesión exitoso!</string>
+    <string name="invalid_credentials">Correo electrónico o contraseña incorrectos</string>
+    <string name="or">O</string>
+    <string name="continue_facebook">Continuar con Facebook</string>
+    <string name="facebook_logo">Logo de Facebook</string>
+    <string name="facebook_login_message">Iniciando sesión con Facebook</string>
+    <string name="retour">Volver</string>
+    <string name="register">Crear una cuenta</string>
+    <string name="welcome_message">¡Bienvenido, %s!</string>
+    <string name="appliances_text">%d dispositivos</string>
+    <string name="floor_text">PISO %d</string>
+    <string name="area_text">%.1f m²</string>
+    <string name="login_button_description">Botón para iniciar sesión en la aplicación</string>
+    <string name="liste_habitats">Lista de viviendas</string>
+    <string name="mon_habitat">Mi vivienda</string>
+    <string name="mes_requetes">Mis solicitudes</string>
+    <string name="parametres">Configuración</string>
+    <string name="deconnexion">Cerrar sesión</string>
+    <string name="habitats">Viviendas</string>
+    <string name="se_deconnecter">Cerrar sesión</string>
+    <string name="menu">Menú</string>
+    <string name="open">Abrir el menú</string>
+    <string name="close">Cerrar el menú</string>
+    <string name="app_icon">Ícono de la aplicación</string>
+    <string name="bienvenue_dans_mes_habitats">Bienvenido a Mis Viviendas</string>
+    <string name="nouveau_sur_app">¿Nuevo en la aplicación?</string>
+    <string name="creer_un_compte">Crear una cuenta</string>
+
+    <!-- Nouvelles chaînes ajoutées -->
+    <string name="create_account">Crear una cuenta</string>
+    <string name="create_new_account">Crear una nueva cuenta</string>
+    <string name="first_name">Nombre</string>
+    <string name="last_name">Apellido</string>
+    <string name="mobile">Móvil</string>
+    <string name="create_account_button">CREAR CUENTA</string>
+
+    <string name="error_first_name">Por favor, introduzca su nombre</string>
+    <string name="error_last_name">Por favor, introduzca su apellido</string>
+    <string name="error_invalid_email">Por favor, introduzca una dirección de correo electrónico válida</string>
+    <string name="error_password_length">La contraseña debe tener al menos 6 caracteres</string>
+    <string name="error_mobile">Por favor, introduzca su número de teléfono</string>
+    <string name="account_created_successfully">¡Cuenta creada con éxito!</string>
+    <string name="welcome_energy_management">Bienvenido en EnergyControl</string>
+    <string name="energy_info">Monitoriza y optimiza el consumo energético de tus electrodomésticos</string>
+    <string name="toggle_password">Password Toggle</string>
+    <string name="continuer_avec_facebook">Continuar con Facebook</string>
+    <string name="mot_de_passe_8_caract_res_minimum_1_majuscule_1_chiffre_1_caract_re_sp_cial">Contraseña (8 caracteres mínimo, 1 letra mayúscula, 1 número, 1 carácter especial)</string>
+    <string name="confirmez_le_mot_de_passe">Confirmar Contraseña</string>
+    <string name="prompt_country_code">Selecciona tu código telefónico</string>
+</resources>

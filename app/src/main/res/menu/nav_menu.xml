@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/nav_habitats"
+        android:icon="@drawable/ic_home"
+        android:title="@string/habitats" />
+
+    <item
+        android:id="@+id/nav_mon_habitat"
+        android:icon="@drawable/ic_person"
+        android:title="@string/mon_habitat" />
+
+    <item
+        android:id="@+id/nav_mes_requetes"
+        android:icon="@drawable/ic_request"
+        android:title="@string/mes_requetes" />
+
+    <item
+        android:id="@+id/nav_parametres"
+        android:icon="@drawable/ic_settings"
+        android:title="@string/parametres" />
+
+    <item
+        android:id="@+id/nav_deconnexion"
+        android:icon="@drawable/ic_logout"
+        android:title="@string/se_deconnecter" />
+</menu>

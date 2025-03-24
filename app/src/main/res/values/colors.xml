@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+    <color name="colorPrimary">#4CAF50</color>
+    <color name="bleuClair">#ADD8E6</color>
+    <color name="splash_background">#BCC4CB</color>
+    <color name="primaryColor">#4CAF50</color> <!-- Vert moderne -->
+    <color name="secondaryColor">#1976D2</color> <!-- Bleu dynamique -->
+</resources>

@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Beta</string>
+    <string name="connect">Log in</string>
+    <string name="identifier">Identify yourself</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="forgot_password">Forgot password?</string>
+    <string name="forgot_password_message">Redirecting to password recovery</string>
+    <string name="empty_fields_message">Please fill in all fields</string>
+    <string name="login_success">Login successful!</string>
+    <string name="invalid_credentials">Incorrect email or password</string>
+    <string name="or">OR</string>
+    <string name="continue_facebook">Continue with Facebook</string>
+    <string name="facebook_logo">Facebook Logo</string>
+    <string name="facebook_login_message">Logging in with Facebook</string>
+    <string name="retour">Back</string>
+    <string name="register">Create an account</string>
+    <string name="welcome_message">Welcome, %s!</string>
+    <string name="appliances_text">%d devices</string>
+    <string name="floor_text">FLOOR %d</string>
+    <string name="area_text">%.1f m²</string>
+    <string name="login_button_description">Button to log in to the app</string>
+    <string name="liste_habitats">List of habitats</string>
+    <string name="mon_habitat">My habitat</string>
+    <string name="mes_requetes">My requests</string>
+    <string name="parametres">Settings</string>
+    <string name="deconnexion">Log out</string>
+    <string name="habitats">Habitats</string>
+    <string name="se_deconnecter">Log out</string>
+    <string name="menu">Menu</string>
+    <string name="open">Open menu</string>
+    <string name="close">Close menu</string>
+    <string name="app_icon">App icon</string>
+    <string name="bienvenue_dans_mes_habitats">Welcome to My Habitats</string>
+    <string name="nouveau_sur_app">New to the app?</string>
+    <string name="creer_un_compte">Create an account</string>
+
+    <!-- New strings added -->
+    <string name="create_account">Create Account</string>
+    <string name="create_new_account">Create new account</string>
+    <string name="first_name">First Name</string>
+    <string name="last_name">Last Name</string>
+    <string name="mobile">Mobile</string>
+    <string name="create_account_button">CREATE ACCOUNT</string>
+
+    <string name="error_first_name">Please enter your first name</string>
+    <string name="error_last_name">Please enter your last name</string>
+    <string name="error_invalid_email">Please enter a valid email address</string>
+    <string name="error_password_length">Password must be at least 6 characters</string>
+    <string name="error_mobile">Please enter your mobile number</string>
+    <string name="account_created_successfully">Account created successfully!</string>
+    <string name="welcome_energy_management">Welcome to EnergyControl</string>
+    <string name="energy_info">Monitor and optimize the energy consumption of your household appliances</string>
+    <string name="toggle_password">Password Toggle</string>
+    <string name="continuer_avec_facebook">Continue with Facebook</string>
+    <string name="mot_de_passe_8_caract_res_minimum_1_majuscule_1_chiffre_1_caract_re_sp_cial">Password (8 characters minimum, 1 uppercase letter, 1 number, 1 special character)</string>
+    <string name="confirmez_le_mot_de_passe">Confirm the password</string>
+    <string name="prompt_country_code">Select your telephone code</string>
+</resources>
