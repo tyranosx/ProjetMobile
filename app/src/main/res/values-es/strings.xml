@@ -57,4 +57,6 @@
     <string name="mot_de_passe_8_caract_res_minimum_1_majuscule_1_chiffre_1_caract_re_sp_cial">Contraseña (8 caracteres mínimo, 1 letra mayúscula, 1 número, 1 carácter especial)</string>
     <string name="confirmez_le_mot_de_passe">Confirmar Contraseña</string>
     <string name="prompt_country_code">Selecciona tu código telefónico</string>
+    <string name="num_ro_de_t_l_phone">Número de teléfono</string>
+    <string name="modifier_son_profil">Edita tu perfil</string>
 </resources>

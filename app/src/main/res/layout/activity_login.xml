@@ -123,4 +123,15 @@
         android:textColor="@android:color/white"
         android:textStyle="bold"
         android:layout_marginTop="12dp"/>
+
+    <!-- Bouton Modifier son profil -->
+    <Button
+        android:id="@+id/btnEditProfile"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/modifier_son_profil"
+        android:background="@drawable/button_ripple"
+        android:textColor="@android:color/white"
+        android:textStyle="bold"
+        android:layout_marginTop="12dp"/>
 </LinearLayout>

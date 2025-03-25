@@ -57,4 +57,6 @@
     <string name="mot_de_passe_8_caract_res_minimum_1_majuscule_1_chiffre_1_caract_re_sp_cial">Password (8 characters minimum, 1 uppercase letter, 1 number, 1 special character)</string>
     <string name="confirmez_le_mot_de_passe">Confirm the password</string>
     <string name="prompt_country_code">Select your telephone code</string>
+    <string name="num_ro_de_t_l_phone">Phone number</string>
+    <string name="modifier_son_profil">Edit profile</string>
 </resources>

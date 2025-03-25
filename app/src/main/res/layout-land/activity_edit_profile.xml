@@ -11,18 +11,7 @@
         android:orientation="horizontal"
         android:gravity="center">
 
-        <!-- Bouton Retour -->
-        <ImageButton
-            android:id="@+id/btnBack"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            android:src="@drawable/fleche_blanche"
-            android:background="?attr/selectableItemBackground"
-            android:contentDescription="@string/retour"
-            android:layout_gravity="start"
-            android:layout_marginBottom="16dp"/>
-
-        <!-- Colonne gauche avec les champs d'inscription -->
+        <!-- Colonne gauche avec les champs de modification -->
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -30,11 +19,12 @@
             android:orientation="vertical"
             android:gravity="center">
 
+            <!-- Titre -->
             <TextView
                 android:id="@+id/tvTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Inscription"
+                android:text="Modifier le profil"
                 android:textSize="22sp"
                 android:textStyle="bold"
                 android:textColor="@android:color/black"
@@ -94,7 +84,6 @@
                     android:id="@+id/spinnerCountryCode"
                     android:layout_width="60dp"
                     android:layout_height="48dp"
-                    android:layout_weight="1"
                     android:background="@drawable/input_background_white"
                     android:layout_marginEnd="8dp"/>
 
@@ -112,12 +101,12 @@
                     android:background="@drawable/input_background_white"/>
             </LinearLayout>
 
-            <!-- Champ Mot de passe -->
+            <!-- Champ Nouveau Mot de passe -->
             <EditText
-                android:id="@+id/etPassword"
+                android:id="@+id/etNewPassword"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Mot de passe (8 caractères minimum, 1 majuscule, 1 chiffre, 1 caractère spécial)"
+                android:hint="Nouveau mot de passe"
                 android:inputType="textPassword"
                 android:textColorHint="@android:color/darker_gray"
                 android:textColor="@android:color/black"
@@ -131,7 +120,7 @@
                 android:id="@+id/etConfirmPassword"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Confirmez le mot de passe"
+                android:hint="Confirmez le nouveau mot de passe"
                 android:inputType="textPassword"
                 android:textColorHint="@android:color/darker_gray"
                 android:textColor="@android:color/black"
@@ -140,27 +129,27 @@
                 android:background="@drawable/input_background_white"
                 android:layout_marginBottom="12dp"/>
 
-            <!-- Bouton d'inscription -->
+            <!-- Bouton Enregistrer les modifications -->
             <Button
-                android:id="@+id/btnRegister"
+                android:id="@+id/btnSaveChanges"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="S'inscrire"
+                android:text="Enregistrer les modifications"
                 android:background="@drawable/button_ripple"
                 android:textColor="@android:color/white"
                 android:textStyle="bold"
                 android:layout_marginTop="16dp"/>
 
-            <!-- Bouton Facebook Login -->
+            <!-- Bouton Annuler -->
             <Button
-                android:id="@+id/btnFacebookLogin"
+                android:id="@+id/btnCancel"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Continuer avec Facebook"
+                android:text="Annuler"
                 android:background="@drawable/button_ripple"
                 android:textColor="@android:color/white"
                 android:textStyle="bold"
-                android:layout_marginTop="12dp"/>
+                android:layout_marginTop="8dp"/>
         </LinearLayout>
     </LinearLayout>
 </ScrollView>

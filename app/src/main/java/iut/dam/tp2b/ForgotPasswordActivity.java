@@ -6,6 +6,7 @@ import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -14,6 +15,7 @@ public class ForgotPasswordActivity extends AppCompatActivity {
 
     private EditText etEmail;
     private Button btnSend, btnBackToLogin;
+    private ImageButton btnBack;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -23,7 +25,9 @@ public class ForgotPasswordActivity extends AppCompatActivity {
         etEmail = findViewById(R.id.etEmail);
         btnSend = findViewById(R.id.btnSend);
         btnBackToLogin = findViewById(R.id.btnBackToLogin);
+        btnBack = findViewById(R.id.btnBack);
 
+        btnBack.setOnClickListener(v -> finish());
         btnSend.setOnClickListener(v -> handlePasswordReset());
         btnBackToLogin.setOnClickListener(v -> navigateToLogin());
     }

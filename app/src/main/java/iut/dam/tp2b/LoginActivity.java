@@ -18,7 +18,7 @@ public class LoginActivity extends AppCompatActivity {
 
     private EditText etEmail, etPassword;
     private ImageButton btnTogglePassword;
-    private Button btnLogin, btnRegister, btnFacebookLogin;
+    private Button btnLogin, btnRegister, btnFacebookLogin, btnEditProfile;
     private TextView tvForgotPassword;
 
     private boolean isPasswordVisible = false;
@@ -45,6 +45,7 @@ public class LoginActivity extends AppCompatActivity {
         btnLogin = findViewById(R.id.btnLogin);
         btnRegister = findViewById(R.id.btnRegister);
         btnFacebookLogin = findViewById(R.id.btnFacebookLogin);
+        btnEditProfile = findViewById(R.id.btnEditProfile);
         tvForgotPassword = findViewById(R.id.tvForgotPassword);
 
         btnTogglePassword.setOnClickListener(v -> togglePasswordVisibility());
@@ -53,6 +54,12 @@ public class LoginActivity extends AppCompatActivity {
         btnRegister.setOnClickListener(v -> handleRegister());
         btnFacebookLogin.setOnClickListener(v -> handleFacebookLogin());
         tvForgotPassword.setOnClickListener(v -> handleForgotPassword());
+        btnEditProfile.setOnClickListener(v -> handleEditProfile());
+    }
+
+    private void handleEditProfile() {
+        Intent intent = new Intent(LoginActivity.this, EditProfileActivity.class);
+        startActivity(intent);
     }
 
     private void togglePasswordVisibility() {

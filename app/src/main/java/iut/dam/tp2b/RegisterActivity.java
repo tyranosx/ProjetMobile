@@ -4,6 +4,8 @@ import android.os.Bundle;
 import android.text.InputType;
 import android.util.Patterns;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -11,15 +13,20 @@ import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
+import java.util.ArrayList;
+import java.util.List;
 
 public class RegisterActivity extends AppCompatActivity {
 
     private EditText etFirstName, etLastName, etEmail, etPassword, etConfirmPassword, etPhoneNumber;
     private Spinner spinnerCountryCode;
     private Button btnRegister, btnFacebookLogin;
+    private ImageButton btnBack; // Nouveau bouton retour
+    private List<String> countryCodes;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -27,32 +34,57 @@ public class RegisterActivity extends AppCompatActivity {
         setContentView(R.layout.activity_register);
 
         etFirstName = findViewById(R.id.etFirstName);
-        etFirstName.setTextColor(getResources().getColor(android.R.color.black));
-
         etLastName = findViewById(R.id.etLastName);
-        etLastName.setTextColor(getResources().getColor(android.R.color.black));
-
         etEmail = findViewById(R.id.etEmail);
-        etEmail.setTextColor(getResources().getColor(android.R.color.black));
-
         etPassword = findViewById(R.id.etPassword);
-        etPassword.setTextColor(getResources().getColor(android.R.color.black));
-
         etConfirmPassword = findViewById(R.id.etConfirmPassword);
-        etConfirmPassword.setTextColor(getResources().getColor(android.R.color.black));
-
         etPhoneNumber = findViewById(R.id.etPhoneNumber);
-        etPhoneNumber.setTextColor(getResources().getColor(android.R.color.black));
-
         spinnerCountryCode = findViewById(R.id.spinnerCountryCode);
         btnRegister = findViewById(R.id.btnRegister);
         btnFacebookLogin = findViewById(R.id.btnFacebookLogin);
+        btnBack = findViewById(R.id.btnBack); // Gestion du bouton retour
 
-        // Remplir le spinner avec les indicatifs téléphoniques
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
-                R.array.country_codes, android.R.layout.simple_spinner_item);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        // Bouton retour pour revenir à LoginActivity
+        btnBack.setOnClickListener(v -> finish());
+
+        // Initialisation de la liste des codes pays avec le hint
+        countryCodes = new ArrayList<>();
+        countryCodes.add("Sélectionnez votre code pays"); // Hint
+        countryCodes.add("+33 France");
+        countryCodes.add("+1 USA");
+        countryCodes.add("+44 UK");
+        countryCodes.add("+49 Deutschland");
+        countryCodes.add("+39 Italy");
+        countryCodes.add("+34 Spain");
+        countryCodes.add("+81 Japan");
+        countryCodes.add("+82 South Korea");
+        countryCodes.add("+86 China");
+        countryCodes.add("+91 India");
+
+        // Création et configuration de l'adaptateur personnalisé
+        final ArrayAdapter<String> adapter = new ArrayAdapter<String>(
+                this, android.R.layout.simple_spinner_item, countryCodes) {
+
+            @Override
+            public boolean isEnabled(int position) {
+                return position != 0; // Désactive le hint
+            }
+
+            @Override
+            public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
+                View view = super.getView(position, convertView, parent);
+                TextView tv = (TextView) view;
+                if (position == 0) {
+                    tv.setTextColor(ContextCompat.getColor(getContext(), android.R.color.darker_gray)); // Hint en gris
+                } else {
+                    tv.setTextColor(ContextCompat.getColor(getContext(), android.R.color.black)); // Autres éléments en noir
+                }
+                return view;
+            }
+        };
+
         spinnerCountryCode.setAdapter(adapter);
+        spinnerCountryCode.setSelection(0); // Par défaut sur le hint
 
         btnRegister.setOnClickListener(v -> handleRegister());
         btnFacebookLogin.setOnClickListener(v -> handleFacebookLogin());
@@ -65,7 +97,7 @@ public class RegisterActivity extends AppCompatActivity {
         String password = etPassword.getText().toString().trim();
         String confirmPassword = etConfirmPassword.getText().toString().trim();
         String phoneNumber = etPhoneNumber.getText().toString().trim();
-        String countryCode = spinnerCountryCode.getSelectedItem().toString().split(" ")[0];
+        int selectedPosition = spinnerCountryCode.getSelectedItemPosition();
 
         if (firstName.isEmpty() || lastName.isEmpty()) {
             Toast.makeText(this, "Veuillez renseigner votre prénom et votre nom", Toast.LENGTH_SHORT).show();
@@ -92,6 +124,12 @@ public class RegisterActivity extends AppCompatActivity {
             return;
         }
 
+        if (selectedPosition == 0) {
+            Toast.makeText(this, "Veuillez sélectionner votre indicatif téléphonique", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        String countryCode = countryCodes.get(selectedPosition).split(" ")[0];
         Toast.makeText(this, "Inscription réussie!\nNuméro: " + countryCode + " " + phoneNumber, Toast.LENGTH_LONG).show();
     }
 
