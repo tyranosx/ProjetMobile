@@ -59,4 +59,6 @@
     <string name="prompt_country_code">Selecciona tu código telefónico</string>
     <string name="num_ro_de_t_l_phone">Número de teléfono</string>
     <string name="modifier_son_profil">Edita tu perfil</string>
+    <string name="navigation_drawer_open">Abrir menú</string>
+    <string name="navigation_drawer_close">Cerrar menú</string>
 </resources>

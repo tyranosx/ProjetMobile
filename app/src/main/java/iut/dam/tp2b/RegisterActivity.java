@@ -1,5 +1,6 @@
 package iut.dam.tp2b;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.util.Patterns;
@@ -130,7 +131,7 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
     private void sendRegistrationToServer(String firstName, String lastName, String email, String password, String phoneNumber, String countryCode) {
-        String apiUrl = "http://192.168.13.94/powerhome_server/register.php";
+        String apiUrl = "http://10.0.2.2/powerhome_server/register.php";
 
         Log.d("RegisterActivity", "Appel API en cours...");
 
@@ -152,7 +153,11 @@ public class RegisterActivity extends AppCompatActivity {
 
                     if (result != null && "success".equals(result.get("status").getAsString())) {
                         showToast("✅ Inscription réussie !");
-                        finish();
+
+                        // 👇 Redirection vers ResidentListActivity
+                        Intent intent = new Intent(RegisterActivity.this, MainActivity.class);
+                        startActivity(intent);
+                        finish(); // Ferme RegisterActivity
                     } else {
                         String message = result != null && result.has("message") ? result.get("message").getAsString() : "Erreur inconnue";
                         showToast("⚠️ " + message);

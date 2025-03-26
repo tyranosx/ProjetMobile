@@ -59,4 +59,6 @@
     <string name="prompt_country_code">Select your telephone code</string>
     <string name="num_ro_de_t_l_phone">Phone number</string>
     <string name="modifier_son_profil">Edit profile</string>
+    <string name="navigation_drawer_open">Open the menu</string>
+    <string name="navigation_drawer_close">Close the menu</string>
 </resources>

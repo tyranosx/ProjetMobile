@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="8dp"
+    android:elevation="4dp"
+    android:background="#F9F9F9"
+    android:padding="12dp">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <!-- Nom -->
+        <TextView
+            android:id="@+id/tvResidentName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Nom Prénom"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:textColor="#000000" />
+
+        <!-- Ligne équipements -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_marginTop="4dp">
+
+            <TextView
+                android:id="@+id/tvEquipmentCount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="3 équipements"
+                android:textSize="14sp"
+                android:textColor="#666666" />
+
+            <!-- Icônes -->
+            <ImageView
+                android:id="@+id/ivAspirateur"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_marginStart="8dp"
+                android:src="@drawable/ic_aspirateur"
+                android:contentDescription="aspirateur"
+                android:visibility="gone" />
+
+            <ImageView
+                android:id="@+id/ivClimatiseur"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_marginStart="4dp"
+                android:src="@drawable/ic_climatiseur"
+                android:contentDescription="climatiseur"
+                android:visibility="gone" />
+
+            <ImageView
+                android:id="@+id/ivFer"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_marginStart="4dp"
+                android:src="@drawable/ic_fer_a_repasser"
+                android:contentDescription="fer"
+                android:visibility="gone" />
+
+            <ImageView
+                android:id="@+id/ivMachine"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_marginStart="4dp"
+                android:src="@drawable/ic_machine_a_laver"
+                android:contentDescription="machine à laver"
+                android:visibility="gone" />
+        </LinearLayout>
+
+        <!-- Badge étage -->
+        <TextView
+            android:id="@+id/tvEtageBadge"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:text="ÉTAGE 1"
+            android:textStyle="bold"
+            android:background="@drawable/etage_badge"
+            android:textColor="#FFFFFF"
+            android:padding="4dp"
+            android:textSize="12sp"
+            android:layout_marginTop="8dp" />
+    </LinearLayout>
+</androidx.cardview.widget.CardView>

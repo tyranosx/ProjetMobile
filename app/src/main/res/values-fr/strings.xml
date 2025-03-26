@@ -59,4 +59,6 @@
     <string name="prompt_country_code">Sélectionnez votre indicatif téléphonique</string>
     <string name="num_ro_de_t_l_phone">Numéro de téléphone</string>
     <string name="modifier_son_profil">Modifier son profil</string>
+    <string name="navigation_drawer_open">Ouvrir le menu</string>
+    <string name="navigation_drawer_close">Fermer le menu</string>
 </resources>

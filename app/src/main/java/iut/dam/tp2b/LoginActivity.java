@@ -14,6 +14,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import com.koushikdutta.ion.Ion;
+import android.net.Uri;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -89,9 +90,9 @@ public class LoginActivity extends AppCompatActivity {
             return;
         }
 
-        String apiUrl = "http://192.168.13.94/powerhome_server/login.php"
-                + "?email=" + email
-                + "&password=" + password;
+        String apiUrl = "http://10.0.2.2/powerhome_server/login.php"
+                + "?email=" + Uri.encode(email)
+                + "&password=" + Uri.encode(password);
 
         Ion.with(this)
                 .load("GET", apiUrl)
@@ -102,21 +103,25 @@ public class LoginActivity extends AppCompatActivity {
                         return;
                     }
 
-                    if (result != null && result.has("token")) {
-                        String token = result.get("token").getAsString();
-                        String expire = result.get("expired_at").getAsString();
+                    if (result != null && result.has("status")) {
+                        String status = result.get("status").getAsString();
 
-                        Toast.makeText(this, "✅ Connexion réussie\nToken : " + token, Toast.LENGTH_LONG).show();
+                        if ("success".equals(status)) {
+                            String token = result.get("token").getAsString();
+                            String expire = result.get("expired_at").getAsString();
 
-                        // TODO : Sauvegarder le token dans SharedPreferences si tu veux
-                        // startActivity(new Intent(this, HomeActivity.class));
-                        // finish();
-                    } else if (result != null && result.isJsonPrimitive()) {
-                        // Cas du message : "incorrect email or password !"
-                        String message = result.getAsString();
-                        Toast.makeText(this, "❌ " + message, Toast.LENGTH_SHORT).show();
+                            Toast.makeText(this, "✅ Connexion réussie !", Toast.LENGTH_SHORT).show();
+
+                            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                            intent.putExtra("token", token);
+                            startActivity(intent);
+                            finish();
+                        } else {
+                            String msg = result.has("message") ? result.get("message").getAsString() : "Erreur inconnue";
+                            Toast.makeText(this, "❌ " + msg, Toast.LENGTH_LONG).show();
+                        }
                     } else {
-                        Toast.makeText(this, "❗ Erreur inconnue", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(this, "❗ Erreur de réponse du serveur", Toast.LENGTH_SHORT).show();
                     }
                 });
     }

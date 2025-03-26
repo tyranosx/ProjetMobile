@@ -2,34 +2,43 @@ package iut.dam.tp2b;
 
 import android.os.Bundle;
 import android.util.Log;
-import androidx.appcompat.app.AppCompatActivity;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+
+import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
 import com.koushikdutta.ion.Ion;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
+
 import java.util.ArrayList;
 import java.util.List;
 
-public class ResidentListActivity extends AppCompatActivity {
+public class HabitatFragment extends Fragment {
 
     private RecyclerView recyclerView;
     private ResidentAdapter residentAdapter;
     private List<Resident> residentList;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_resident_list);
+    public HabitatFragment() {}
 
-        recyclerView = findViewById(R.id.recyclerViewResidents);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_habitat, container, false);
+
+        recyclerView = view.findViewById(R.id.recyclerViewResidents);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
         residentList = new ArrayList<>();
-        residentAdapter = new ResidentAdapter(this, residentList);
+        residentAdapter = new ResidentAdapter(getContext(), residentList);
         recyclerView.setAdapter(residentAdapter);
 
         fetchResidentsFromServer();
+
+        return view;
     }
 
     private void fetchResidentsFromServer() {
@@ -40,7 +49,7 @@ public class ResidentListActivity extends AppCompatActivity {
                 .asJsonArray()
                 .setCallback((e, result) -> {
                     if (e != null) {
-                        Log.e("ResidentList", "Erreur de requête : " + e.getMessage());
+                        Log.e("HabitatFragment", "Erreur de requête : " + e.getMessage());
                         return;
                     }
 
