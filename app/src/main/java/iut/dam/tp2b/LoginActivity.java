@@ -13,6 +13,7 @@ import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
+import com.koushikdutta.ion.Ion;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -88,7 +89,36 @@ public class LoginActivity extends AppCompatActivity {
             return;
         }
 
-        Toast.makeText(this, "Connexion réussie!", Toast.LENGTH_SHORT).show();
+        String apiUrl = "http://192.168.13.94/powerhome_server/login.php"
+                + "?email=" + email
+                + "&password=" + password;
+
+        Ion.with(this)
+                .load("GET", apiUrl)
+                .asJsonObject()
+                .setCallback((e, result) -> {
+                    if (e != null) {
+                        Toast.makeText(this, "Erreur réseau : " + e.getMessage(), Toast.LENGTH_LONG).show();
+                        return;
+                    }
+
+                    if (result != null && result.has("token")) {
+                        String token = result.get("token").getAsString();
+                        String expire = result.get("expired_at").getAsString();
+
+                        Toast.makeText(this, "✅ Connexion réussie\nToken : " + token, Toast.LENGTH_LONG).show();
+
+                        // TODO : Sauvegarder le token dans SharedPreferences si tu veux
+                        // startActivity(new Intent(this, HomeActivity.class));
+                        // finish();
+                    } else if (result != null && result.isJsonPrimitive()) {
+                        // Cas du message : "incorrect email or password !"
+                        String message = result.getAsString();
+                        Toast.makeText(this, "❌ " + message, Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(this, "❗ Erreur inconnue", Toast.LENGTH_SHORT).show();
+                    }
+                });
     }
 
     private boolean isValidPassword(String password) {
