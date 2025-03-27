@@ -61,4 +61,18 @@
     <string name="modifier_son_profil">Edita tu perfil</string>
     <string name="navigation_drawer_open">Abrir menú</string>
     <string name="navigation_drawer_close">Cerrar menú</string>
+    <string name="mes_quipements">Mi equipo</string>
+    <string name="mettre_jour">Para actualizar</string>
+    <string name="aspirateur">Aspiradora</string>
+    <string name="s_lectionner_un_habitat">Selecciona un hábitat :</string>
+    <string name="nom_de_l_quipement">Nombre del equipo</string>
+    <string name="r_f_rence">Referencia</string>
+    <string name="puissance_w">Fuerza (W)</string>
+    <string name="ajouter">Agregar</string>
+    <string name="liste_des_habitats">Lista de hábitats</string>
+    <string name="choisir_habitat">Elige hábitat</string>
+    <string name="mes_notifications">Mis notificaciones</string>
+    <string name="mes_pr_f_rences">Mis preferencias</string>
+    <string name="propos">Acerca de</string>
+    <string name="ajouter_equipement">Agregar equipo</string>
 </resources>

@@ -1,6 +1,7 @@
 package iut.dam.tp2b;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.InputType;
 import android.util.Patterns;
@@ -109,6 +110,25 @@ public class LoginActivity extends AppCompatActivity {
                         if ("success".equals(status)) {
                             String token = result.get("token").getAsString();
                             String expire = result.get("expired_at").getAsString();
+                            int userId = result.has("user_id") && !result.get("user_id").isJsonNull()
+                                    ? result.get("user_id").getAsInt()
+                                    : -1;
+
+                            if (userId == -1) {
+                                Toast.makeText(this, "Erreur : utilisateur non trouvé", Toast.LENGTH_SHORT).show();
+                                return;
+                            }
+                            int habitatId = result.has("habitat_id") && !result.get("habitat_id").isJsonNull()
+                                    ? result.get("habitat_id").getAsInt()
+                                    : -1;
+
+                            SharedPreferences prefs = getSharedPreferences("user_session", MODE_PRIVATE);
+                            SharedPreferences.Editor editor = prefs.edit();
+                            editor.putInt("user_id", userId); // ✅ sauvegarde
+                            editor.putString("token", token);
+                            editor.putString("expired_at", expire);
+                            editor.putInt("habitat_id", habitatId);
+                            editor.apply();
 
                             Toast.makeText(this, "✅ Connexion réussie !", Toast.LENGTH_SHORT).show();
 

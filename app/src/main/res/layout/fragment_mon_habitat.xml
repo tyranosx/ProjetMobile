@@ -1,14 +1,40 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/splash_background"
-    android:padding="24dp">
+    android:orientation="vertical"
+    android:padding="16dp">
 
     <TextView
+        android:id="@+id/tvTotalWattage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Conso totale : 0 W"
+        android:textStyle="bold"
+        android:textSize="16sp"
+        android:layout_marginBottom="12dp" />
+
+    <TextView
+        android:id="@+id/tvWattageRemaining"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Restant : -- W"
+        android:textStyle="italic"
+        android:layout_marginBottom="12dp"
+        android:textSize="15sp"/>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerEquipments"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"/>
+
+    <Button
+        android:id="@+id/btnUpdateEquipments"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Mon habitat"
-        android:textSize="20sp"
-        android:textColor="@android:color/black"
-        android:gravity="center"/>
-</FrameLayout>
+        android:text="@string/mettre_jour"
+        android:layout_marginTop="12dp"
+        android:backgroundTint="@color/teal_700"
+        android:textColor="@android:color/white"/>
+</LinearLayout>

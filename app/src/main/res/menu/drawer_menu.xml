@@ -5,27 +5,37 @@
 
         <item
             android:id="@+id/nav_habitat"
-            android:title="Liste des habitats"
+            android:title="@string/liste_des_habitats"
             android:icon="@drawable/ic_home" />
 
         <item
+            android:id="@+id/nav_choisir_habitat"
+            android:title="@string/choisir_habitat"
+            android:icon="@drawable/ic_home" />
+
+        <item
+            android:id="@+id/nav_ajouter_equipement"
+            android:title="@string/ajouter_equipement"
+            android:icon="@drawable/ic_add" />
+
+        <item
             android:id="@+id/nav_mon_habitat"
-            android:title="Mon habitat"
+            android:title="@string/mon_habitat"
             android:icon="@drawable/ic_habitat" />
 
         <item
             android:id="@+id/nav_notifications"
-            android:title="Mes notifications"
+            android:title="@string/mes_notifications"
             android:icon="@drawable/ic_notifications" />
 
         <item
             android:id="@+id/nav_preferences"
-            android:title="Mes préférences"
+            android:title="@string/mes_pr_f_rences"
             android:icon="@drawable/ic_settings" />
 
         <item
             android:id="@+id/nav_apropos"
-            android:title="À propos"
+            android:title="@string/propos"
             android:icon="@drawable/ic_info" />
 
     </group>

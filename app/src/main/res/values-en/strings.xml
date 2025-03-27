@@ -61,4 +61,18 @@
     <string name="modifier_son_profil">Edit profile</string>
     <string name="navigation_drawer_open">Open the menu</string>
     <string name="navigation_drawer_close">Close the menu</string>
+    <string name="mes_quipements">My equipment</string>
+    <string name="mettre_jour">Update</string>
+    <string name="aspirateur">Vacuum cleaner</string>
+    <string name="s_lectionner_un_habitat">Select a habitat :</string>
+    <string name="nom_de_l_quipement">Equipment Name</string>
+    <string name="r_f_rence">Reference</string>
+    <string name="puissance_w">Power (W)</string>
+    <string name="ajouter">Add</string>
+    <string name="liste_des_habitats">List of habitats</string>
+    <string name="choisir_habitat">Choose habitat</string>
+    <string name="mes_notifications">My notifications</string>
+    <string name="mes_pr_f_rences">My preferences</string>
+    <string name="propos">About</string>
+    <string name="ajouter_equipement">Add an appliance</string>
 </resources>

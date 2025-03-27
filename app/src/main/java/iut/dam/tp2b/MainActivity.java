@@ -63,6 +63,10 @@ public class MainActivity extends AppCompatActivity {
             selectedFragment = new MesNotificationsFragment();
         } else if (itemId == R.id.nav_preferences) {
             selectedFragment = new ParametresFragment();
+        } else if (itemId == R.id.nav_choisir_habitat) {
+            selectedFragment = new ChoisirHabitatFragment();
+        } else if (itemId == R.id.nav_ajouter_equipement) {
+            selectedFragment = new AjouterEquipementFragment();
         } else if (itemId == R.id.nav_apropos) {
             showAboutDialog();
             return true;

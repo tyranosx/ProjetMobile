@@ -7,4 +7,5 @@
     <color name="splash_background">#BCC4CB</color>
     <color name="primaryColor">#4CAF50</color> <!-- Vert moderne -->
     <color name="secondaryColor">#1976D2</color> <!-- Bleu dynamique -->
+    <color name="teal_700">#018786</color>
 </resources>

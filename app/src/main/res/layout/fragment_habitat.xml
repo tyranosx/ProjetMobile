@@ -29,6 +29,16 @@
         android:textColor="@android:color/black"
         android:layout_marginBottom="16dp" />
 
+    <!-- Consommation totale -->
+    <TextView
+        android:id="@+id/tvTotalConsumption"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Consommation totale : 0 W"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:layout_marginBottom="8dp" />
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerViewResidents"
         android:layout_width="match_parent"

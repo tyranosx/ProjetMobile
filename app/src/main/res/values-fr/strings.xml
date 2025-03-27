@@ -61,4 +61,18 @@
     <string name="modifier_son_profil">Modifier son profil</string>
     <string name="navigation_drawer_open">Ouvrir le menu</string>
     <string name="navigation_drawer_close">Fermer le menu</string>
+    <string name="mes_quipements">Mes équipements</string>
+    <string name="mettre_jour">Mettre à jour</string>
+    <string name="aspirateur">Aspirateur</string>
+    <string name="s_lectionner_un_habitat">Sélectionner un habitat :</string>
+    <string name="nom_de_l_quipement">Nom de l’équipement</string>
+    <string name="r_f_rence">Référence</string>
+    <string name="puissance_w">Puissance (W)</string>
+    <string name="ajouter">Ajouter</string>
+    <string name="liste_des_habitats">Liste des habitats</string>
+    <string name="choisir_habitat">Choisir habitat</string>
+    <string name="mes_notifications">Mes notifications</string>
+    <string name="mes_pr_f_rences">Mes préférences</string>
+    <string name="propos">À propos</string>
+    <string name="ajouter_equipement">Ajouter un équipement</string>
 </resources>
