@@ -10,27 +10,31 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import com.google.gson.*;
 import com.koushikdutta.ion.Ion;
-
 import java.text.SimpleDateFormat;
 import java.util.*;
 
 public class AjouterUsageFragment extends Fragment {
 
-    private Spinner spinnerAppliances, spinnerTimeSlots;
+    private AutoCompleteTextView autoAppliances, autoTimeSlots;
     private Button btnAjouter;
     private List<Appliance> appliances = new ArrayList<>();
     private List<TimeSlot> timeSlots = new ArrayList<>();
     private SharedPreferences prefs;
 
+    private Appliance selectedAppliance;
+    private TimeSlot selectedTimeSlot;
+
     private class Appliance {
         int id;
         String name;
+        @NonNull
         public String toString() { return name; }
     }
 
     private class TimeSlot {
         int id;
         String begin;
+        @NonNull
         public String toString() { return begin; }
     }
 
@@ -41,9 +45,17 @@ public class AjouterUsageFragment extends Fragment {
 
         prefs = requireActivity().getSharedPreferences("user_session", Context.MODE_PRIVATE);
 
-        spinnerAppliances = view.findViewById(R.id.spinnerAppliances);
-        spinnerTimeSlots = view.findViewById(R.id.spinnerTimeSlots);
+        autoAppliances = view.findViewById(R.id.autoAppliances);
+        autoTimeSlots = view.findViewById(R.id.autoTimeSlots);
         btnAjouter = view.findViewById(R.id.btnAjouterUsage);
+
+        // ✅ Affiche dès 1 caractère tapé
+        autoAppliances.setThreshold(1);
+        autoTimeSlots.setThreshold(1);
+
+        // ✅ Affiche la liste directement au clic
+        autoAppliances.setOnClickListener(v -> autoAppliances.showDropDown());
+        autoTimeSlots.setOnClickListener(v -> autoTimeSlots.showDropDown());
 
         fetchAppliances();
         fetchTimeSlots();
@@ -70,7 +82,13 @@ public class AjouterUsageFragment extends Fragment {
                             a.name = obj.get("name").getAsString();
                             appliances.add(a);
                         }
-                        spinnerAppliances.setAdapter(new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_dropdown_item, appliances));
+
+                        ArrayAdapter<Appliance> adapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_dropdown_item_1line, appliances);
+                        autoAppliances.setAdapter(adapter);
+
+                        autoAppliances.setOnItemClickListener((parent, view, position, id) -> {
+                            selectedAppliance = (Appliance) parent.getItemAtPosition(position);
+                        });
                     }
                 });
     }
@@ -89,26 +107,57 @@ public class AjouterUsageFragment extends Fragment {
                             t.begin = obj.get("begin").getAsString();
                             timeSlots.add(t);
                         }
-                        spinnerTimeSlots.setAdapter(new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_dropdown_item, timeSlots));
+
+                        ArrayAdapter<TimeSlot> adapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_dropdown_item_1line, timeSlots);
+                        autoTimeSlots.setAdapter(adapter);
+
+                        autoTimeSlots.setOnItemClickListener((parent, view, position, id) -> {
+                            selectedTimeSlot = (TimeSlot) parent.getItemAtPosition(position);
+                        });
                     }
                 });
     }
 
     private void ajouterUsage() {
-        Appliance appliance = (Appliance) spinnerAppliances.getSelectedItem();
-        TimeSlot timeSlot = (TimeSlot) spinnerTimeSlots.getSelectedItem();
-        if (appliance == null || timeSlot == null) return;
+        String applianceInput = autoAppliances.getText().toString().trim();
+        String timeSlotInput = autoTimeSlots.getText().toString().trim();
 
+        // 🔄 Recherche manuelle dans la liste si non sélectionné via clic
+        if (selectedAppliance == null) {
+            for (Appliance a : appliances) {
+                if (a.toString().equalsIgnoreCase(applianceInput)) {
+                    selectedAppliance = a;
+                    break;
+                }
+            }
+        }
+
+        if (selectedTimeSlot == null) {
+            for (TimeSlot t : timeSlots) {
+                if (t.toString().equalsIgnoreCase(timeSlotInput)) {
+                    selectedTimeSlot = t;
+                    break;
+                }
+            }
+        }
+
+        // ❌ Si toujours rien trouvé
+        if (selectedAppliance == null || selectedTimeSlot == null) {
+            Toast.makeText(getContext(), "Sélectionnez un équipement et un créneau", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        // ✅ On continue avec l'appel réseau
         Ion.with(this)
-                .load("GET", "http://10.0.2.2/powerhome_server/get_order_count.php?time_slot_id=" + timeSlot.id)
+                .load("GET", "http://10.0.2.2/powerhome_server/get_order_count.php?time_slot_id=" + selectedTimeSlot.id)
                 .asJsonObject()
                 .setCallback((e, result) -> {
                     if (result != null && result.has("count")) {
                         int order = result.get("count").getAsInt() + 1;
 
                         JsonObject data = new JsonObject();
-                        data.addProperty("appliance_id", appliance.id);
-                        data.addProperty("time_slot_id", timeSlot.id);
+                        data.addProperty("appliance_id", selectedAppliance.id);
+                        data.addProperty("time_slot_id", selectedTimeSlot.id);
                         data.addProperty("order", order);
 
                         String now = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault()).format(new Date());
@@ -122,6 +171,11 @@ public class AjouterUsageFragment extends Fragment {
                                 .setCallback((e2, res2) -> {
                                     if (res2 != null && res2.get("status").getAsString().equals("success")) {
                                         Toast.makeText(getContext(), "✅ Équipement ajouté au créneau", Toast.LENGTH_SHORT).show();
+                                        // 🧼 Reset les sélections après ajout
+                                        autoAppliances.setText("");
+                                        autoTimeSlots.setText("");
+                                        selectedAppliance = null;
+                                        selectedTimeSlot = null;
                                     } else {
                                         Toast.makeText(getContext(), "❌ Erreur lors de l'ajout", Toast.LENGTH_SHORT).show();
                                     }
