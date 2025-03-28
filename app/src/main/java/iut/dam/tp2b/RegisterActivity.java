@@ -1,6 +1,7 @@
 package iut.dam.tp2b;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.util.Patterns;
@@ -154,10 +155,33 @@ public class RegisterActivity extends AppCompatActivity {
                     if (result != null && "success".equals(result.get("status").getAsString())) {
                         showToast("✅ Inscription réussie !");
 
-                        // 👇 Redirection vers ResidentListActivity
+                        // ✅ Sauvegarde dans SharedPreferences
+                        int userId = result.has("user_id") && !result.get("user_id").isJsonNull()
+                                ? result.get("user_id").getAsInt()
+                                : -1;
+                        int habitatId = result.has("habitat_id") && !result.get("habitat_id").isJsonNull()
+                                ? result.get("habitat_id").getAsInt()
+                                : -1;  // ou tu peux mettre 0 ou un autre indicateur
+
+
+                        if (userId != -1) {
+                            SharedPreferences prefs = getSharedPreferences("user_session", MODE_PRIVATE);
+                            SharedPreferences.Editor editor = prefs.edit();
+                            editor.putInt("user_id", userId);
+                            editor.putInt("habitat_id", habitatId);
+
+                            // ⏱ Fake token pour le moment
+                            editor.putString("token", "registered_token_" + userId);
+                            editor.putString("expired_at", "2099-12-31");
+
+                            editor.apply();
+                        }
+
+                        // 🚀 Redirection vers MainActivity
                         Intent intent = new Intent(RegisterActivity.this, MainActivity.class);
                         startActivity(intent);
-                        finish(); // Ferme RegisterActivity
+                        finish();
+
                     } else {
                         String message = result != null && result.has("message") ? result.get("message").getAsString() : "Erreur inconnue";
                         showToast("⚠️ " + message);

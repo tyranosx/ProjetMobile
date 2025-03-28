@@ -35,6 +35,14 @@ public class CalendrierFragment extends Fragment {
         generateMonthDays();
         fetchConsumption();
 
+        // ✅ Click sur une case du calendrier
+        gridView.setOnItemClickListener((parent, view1, position, id) -> {
+            String dateStr = daysInMonth.get(position);
+            int pct = dayToPercentage.getOrDefault(dateStr, 0);
+            String msg = "Le " + dateStr + " : " + pct + "% de consommation";
+            Toast.makeText(getContext(), msg, Toast.LENGTH_SHORT).show();
+        });
+
         return view;
     }
 
@@ -65,7 +73,6 @@ public class CalendrierFragment extends Fragment {
                             dayToPercentage.put(date, percentage);
                         }
 
-                        // Maj UI
                         gridView.setAdapter(new CalendarAdapter());
                     }
                 });
@@ -100,10 +107,9 @@ public class CalendrierFragment extends Fragment {
             cell.setTextSize(18);
             cell.setPadding(0, 30, 0, 30);
 
-            // Couleur de fond selon % conso
             int pct = dayToPercentage.getOrDefault(dateStr, 0);
             if (pct <= 30) {
-                cell.setBackgroundColor(Color.parseColor("#A5D6A7")); // 🟢 vert clair
+                cell.setBackgroundColor(Color.parseColor("#A5D6A7")); // 🟢 vert
             } else if (pct <= 70) {
                 cell.setBackgroundColor(Color.parseColor("#FFE082")); // 🟠 orange
             } else {

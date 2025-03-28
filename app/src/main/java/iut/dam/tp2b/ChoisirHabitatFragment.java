@@ -105,7 +105,12 @@ public class ChoisirHabitatFragment extends Fragment {
                     }
 
                     if (result.get("status").getAsString().equals("success")) {
-                        Toast.makeText(getContext(), "✅ Habitat mis à jour !", Toast.LENGTH_SHORT).show();
+                        new androidx.appcompat.app.AlertDialog.Builder(requireContext())
+                                .setTitle("Succès")
+                                .setMessage("✅ Habitat mis à jour ! Déconnectez puis reconnectez vous pour ajouter un équipement (mis à jour de l'habitat_id)")
+                                .setPositiveButton("OK", null)
+                                .show();
+
                     } else {
                         showErrorDialog("❌ " + result.get("message").getAsString());
                     }

@@ -81,4 +81,15 @@
     <string name="ajouter_time_slot">Ajouter un Time Slot</string>
     <string name="ajouter_usage">Réserver un créneau</string>
     <string name="consommation_globale">Consommation globale</string>
+    <string name="habitat_">Habitat #</string>
+    <string name="etage_deux_points"> • Étage : </string>
+    <string name="surface_deux_points"> • Surface : </string>
+    <string name="metre_carre">m²</string>
+    <string name="max">Max : </string>
+    <string name="w_actuel">W - Actuel : </string>
+    <string name="w">W</string>
+    <string name="critique">🔥 Critique</string>
+    <string name="annuler">❌ Annuler</string>
+    <string name="engag">✅ Engagé</string>
+    <string name="je_m_engage">Je m\'engage</string>
 </resources>

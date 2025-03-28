@@ -19,9 +19,6 @@
             android:name=".MainActivity"
             android:exported="false" />
         <activity
-            android:name=".ResidentListActivity"
-            android:exported="false" />
-        <activity
             android:name=".EditProfileActivity"
             android:exported="false" />
         <activity
@@ -39,12 +36,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".HabitatActivity"
-            android:exported="false" />
-        <activity
-            android:name=".ListActivity"
-            android:exported="false" />
         <activity
             android:name=".LoginActivity"
             android:exported="true">

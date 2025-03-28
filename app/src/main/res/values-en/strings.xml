@@ -81,4 +81,15 @@
     <string name="ajouter_time_slot">Add a Time Slot</string>
     <string name="ajouter_usage">Reserve a slot</string>
     <string name="consommation_globale">Overall consumption</string>
+    <string name="habitat_">Habitat #</string>
+    <string name="etage_deux_points"> • Floor : </string>
+    <string name="surface_deux_points"> • Surface : </string>
+    <string name="metre_carre">m²</string>
+    <string name="max">Maximum : </string>
+    <string name="w_actuel">W - Current : </string>
+    <string name="w">W</string>
+    <string name="critique">🔥 Critical</string>
+    <string name="annuler">❌ Cancel</string>
+    <string name="engag">✅ Engaged</string>
+    <string name="je_m_engage">I commit</string>
 </resources>

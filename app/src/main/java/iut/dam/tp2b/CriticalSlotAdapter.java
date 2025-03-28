@@ -51,7 +51,7 @@ public class CriticalSlotAdapter extends RecyclerView.Adapter<CriticalSlotAdapte
         // 🔥 Badge critique avec animation si imminent (<15min)
         if ((float) slot.getCurrentWattage() / slot.getMaxWattage() >= 0.95f) {
             holder.tvBadge.setVisibility(View.VISIBLE);
-            holder.tvBadge.setText("🔥 Critique");
+            holder.tvBadge.setText(R.string.critique);
 
             try {
                 SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.getDefault());
@@ -75,11 +75,11 @@ public class CriticalSlotAdapter extends RecyclerView.Adapter<CriticalSlotAdapte
         // 📍 Mode lecture ou annulation
         if (slot.isEngaged()) {
             if (showCancelButton) {
-                holder.btnEngager.setText("❌ Annuler");
+                holder.btnEngager.setText(R.string.annuler);
                 holder.btnEngager.setEnabled(true);
                 holder.btnEngager.setAlpha(1f);
             } else {
-                holder.btnEngager.setText("✅ Engagé");
+                holder.btnEngager.setText(R.string.engag);
                 holder.btnEngager.setEnabled(false);
                 holder.btnEngager.setAlpha(0.6f);
 
@@ -96,7 +96,7 @@ public class CriticalSlotAdapter extends RecyclerView.Adapter<CriticalSlotAdapte
                         .start();
             }
         } else {
-            holder.btnEngager.setText("Je m'engage");
+            holder.btnEngager.setText(R.string.je_m_engage);
             holder.btnEngager.setEnabled(!showCancelButton); // désactivé si en mode lecture
             holder.btnEngager.setAlpha(showCancelButton ? 0f : 1f);
             holder.btnEngager.setScaleX(1f);

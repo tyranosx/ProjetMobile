@@ -96,11 +96,6 @@ public class LoginActivity extends AppCompatActivity {
             return;
         }
 
-        if (!isValidPassword(password)) {
-            Toast.makeText(this, "Le mot de passe doit contenir au moins 8 caractères, une majuscule, un chiffre et un caractère spécial", Toast.LENGTH_LONG).show();
-            return;
-        }
-
         String apiUrl = "http://10.0.2.2/powerhome_server/login.php"
                 + "?email=" + Uri.encode(email)
                 + "&password=" + Uri.encode(password);
@@ -154,13 +149,6 @@ public class LoginActivity extends AppCompatActivity {
                         Toast.makeText(this, "❗ Erreur de réponse du serveur", Toast.LENGTH_SHORT).show();
                     }
                 });
-    }
-
-    private boolean isValidPassword(String password) {
-        return password.length() >= 8 &&
-                password.matches(".*[A-Z].*") &&
-                password.matches(".*[0-9].*") &&
-                password.matches(".*[!@#$%^&*(),.?\":{}|<>].*");
     }
 
     private void handleRegister() {

@@ -81,4 +81,15 @@
     <string name="ajouter_time_slot">Agregar una franja horaria</string>
     <string name="ajouter_usage">Reserva un espacio</string>
     <string name="consommation_globale">Consumo total</string>
+    <string name="habitat_">Hábitat #</string>
+    <string name="etage_deux_points"> • Piso : </string>
+    <string name="surface_deux_points"> • Superficie : </string>
+    <string name="metre_carre">m²</string>
+    <string name="max">Máximo : </string>
+    <string name="w_actuel">W - Actual : </string>
+    <string name="w">W</string>
+    <string name="critique">🔥 Critica</string>
+    <string name="annuler">❌ Cancelar</string>
+    <string name="engag">✅ Comprometido</string>
+    <string name="je_m_engage">Me comprometo</string>
 </resources>
