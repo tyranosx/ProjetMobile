@@ -80,4 +80,5 @@
     <string name="mes_engagements">Mis compromisos</string>
     <string name="ajouter_time_slot">Agregar una franja horaria</string>
     <string name="ajouter_usage">Reserva un espacio</string>
+    <string name="consommation_globale">Consumo total</string>
 </resources>

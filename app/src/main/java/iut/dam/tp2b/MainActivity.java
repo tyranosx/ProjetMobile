@@ -88,6 +88,8 @@ public class MainActivity extends AppCompatActivity {
             selectedFragment = new AjouterTimeSlotFragment();
         } else if (itemId == R.id.nav_ajouter_usage) {
             selectedFragment = new AjouterUsageFragment();
+        } else if (itemId == R.id.nav_calendrier) {
+            selectedFragment = new CalendrierFragment();
         }
 
         if (selectedFragment != null) {

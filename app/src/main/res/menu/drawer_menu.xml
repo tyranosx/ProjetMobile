@@ -49,6 +49,11 @@
             android:icon="@drawable/ic_settings" />
 
         <item
+            android:id="@+id/nav_calendrier"
+            android:title="@string/consommation_globale"
+            android:icon="@drawable/ic_calendar" />
+
+        <item
             android:id="@+id/nav_apropos"
             android:title="@string/propos"
             android:icon="@drawable/ic_info" />

@@ -80,4 +80,5 @@
     <string name="mes_engagements">My commitments</string>
     <string name="ajouter_time_slot">Add a Time Slot</string>
     <string name="ajouter_usage">Reserve a slot</string>
+    <string name="consommation_globale">Overall consumption</string>
 </resources>

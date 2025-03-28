@@ -80,4 +80,5 @@
     <string name="mes_engagements">Mes engagements</string>
     <string name="ajouter_time_slot">Ajouter un Time Slot</string>
     <string name="ajouter_usage">Réserver un créneau</string>
+    <string name="consommation_globale">Consommation globale</string>
 </resources>
