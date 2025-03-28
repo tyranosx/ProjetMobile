@@ -29,6 +29,16 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        // 🔐 Si utilisateur déjà connecté -> skip Login
+        SharedPreferences prefs = getSharedPreferences("user_session", MODE_PRIVATE);
+        int userId = prefs.getInt("user_id", -1);
+        if (userId != -1) {
+            startActivity(new Intent(this, MainActivity.class));
+            finish();
+            return;
+        }
+
         setContentView(R.layout.activity_login);
 
         etEmail = findViewById(R.id.etEmail);

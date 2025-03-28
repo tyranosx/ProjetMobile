@@ -75,4 +75,9 @@
     <string name="mes_pr_f_rences">Mes préférences</string>
     <string name="propos">À propos</string>
     <string name="ajouter_equipement">Ajouter un équipement</string>
+    <string name="cr_neaux_critiques">Créneaux critiques</string>
+    <string name="d_connexion">Déconnexion</string>
+    <string name="mes_engagements">Mes engagements</string>
+    <string name="ajouter_time_slot">Ajouter un Time Slot</string>
+    <string name="ajouter_usage">Réserver un créneau</string>
 </resources>

@@ -8,4 +8,6 @@
     <color name="primaryColor">#4CAF50</color> <!-- Vert moderne -->
     <color name="secondaryColor">#1976D2</color> <!-- Bleu dynamique -->
     <color name="teal_700">#018786</color>
+    <color name="teal_200">#80CBC4</color> <!-- Teal plus clair -->
+    <color name="light_gray">#F0F0F0</color> <!-- Gris clair pour bannière -->
 </resources>

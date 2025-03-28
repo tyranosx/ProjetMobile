@@ -75,4 +75,9 @@
     <string name="mes_pr_f_rences">My preferences</string>
     <string name="propos">About</string>
     <string name="ajouter_equipement">Add an appliance</string>
+    <string name="cr_neaux_critiques">Critical niches</string>
+    <string name="d_connexion">Disconnect</string>
+    <string name="mes_engagements">My commitments</string>
+    <string name="ajouter_time_slot">Add a Time Slot</string>
+    <string name="ajouter_usage">Reserve a slot</string>
 </resources>

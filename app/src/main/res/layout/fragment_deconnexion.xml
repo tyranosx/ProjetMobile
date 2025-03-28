@@ -3,12 +3,24 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="16dp">
+    android:padding="32dp"
+    android:gravity="center"
+    android:background="#ECECEC">
 
     <TextView
+        android:id="@+id/tvLogoutMessage"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/deconnexion"
+        android:text="Souhaitez-vous vous déconnecter ?"
         android:textSize="18sp"
-        android:textStyle="bold"/>
+        android:textColor="#333333"
+        android:layout_marginBottom="24dp" />
+
+    <Button
+        android:id="@+id/btnLogout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Se déconnecter"
+        android:backgroundTint="#FF4444"
+        android:textColor="#FFFFFF" />
 </LinearLayout>

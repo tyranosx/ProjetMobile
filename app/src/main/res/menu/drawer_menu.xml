@@ -29,6 +29,21 @@
             android:icon="@drawable/ic_notifications" />
 
         <item
+            android:id="@+id/nav_ajouter_time_slot"
+            android:title="@string/ajouter_time_slot"
+            android:icon="@drawable/ic_time" />
+
+        <item
+            android:id="@+id/nav_ajouter_usage"
+            android:title="@string/ajouter_usage"
+            android:icon="@drawable/ic_time" />
+
+        <item
+            android:id="@+id/nav_mes_engagements"
+            android:title="@string/mes_engagements"
+            android:icon="@drawable/ic_checklist" />
+
+        <item
             android:id="@+id/nav_preferences"
             android:title="@string/mes_pr_f_rences"
             android:icon="@drawable/ic_settings" />
@@ -37,6 +52,11 @@
             android:id="@+id/nav_apropos"
             android:title="@string/propos"
             android:icon="@drawable/ic_info" />
+
+        <item
+            android:id="@+id/nav_deconnexion"
+            android:title="@string/d_connexion"
+            android:icon="@drawable/ic_logout" />
 
     </group>
 
