@@ -1,5 +1,6 @@
 package iut.dam.tp2b;
 
+import android.app.AlertDialog;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -10,6 +11,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import com.google.gson.*;
 import com.koushikdutta.ion.Ion;
+
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -49,11 +51,9 @@ public class AjouterUsageFragment extends Fragment {
         autoTimeSlots = view.findViewById(R.id.autoTimeSlots);
         btnAjouter = view.findViewById(R.id.btnAjouterUsage);
 
-        // ✅ Affiche dès 1 caractère tapé
         autoAppliances.setThreshold(1);
         autoTimeSlots.setThreshold(1);
 
-        // ✅ Affiche la liste directement au clic
         autoAppliances.setOnClickListener(v -> autoAppliances.showDropDown());
         autoTimeSlots.setOnClickListener(v -> autoTimeSlots.showDropDown());
 
@@ -122,7 +122,6 @@ public class AjouterUsageFragment extends Fragment {
         String applianceInput = autoAppliances.getText().toString().trim();
         String timeSlotInput = autoTimeSlots.getText().toString().trim();
 
-        // 🔄 Recherche manuelle dans la liste si non sélectionné via clic
         if (selectedAppliance == null) {
             for (Appliance a : appliances) {
                 if (a.toString().equalsIgnoreCase(applianceInput)) {
@@ -141,13 +140,17 @@ public class AjouterUsageFragment extends Fragment {
             }
         }
 
-        // ❌ Si toujours rien trouvé
         if (selectedAppliance == null || selectedTimeSlot == null) {
             Toast.makeText(getContext(), "Sélectionnez un équipement et un créneau", Toast.LENGTH_SHORT).show();
             return;
         }
 
-        // ✅ On continue avec l'appel réseau
+        int userId = prefs.getInt("user_id", -1);
+        if (userId == -1) {
+            Toast.makeText(getContext(), "Utilisateur non identifié", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
         Ion.with(this)
                 .load("GET", "http://10.0.2.2/powerhome_server/get_order_count.php?time_slot_id=" + selectedTimeSlot.id)
                 .asJsonObject()
@@ -162,6 +165,7 @@ public class AjouterUsageFragment extends Fragment {
 
                         String now = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault()).format(new Date());
                         data.addProperty("booked_at", now);
+                        data.addProperty("user_id", userId);
 
                         Ion.with(this)
                                 .load("POST", "http://10.0.2.2/powerhome_server/add_appliance_usage.php")
@@ -171,16 +175,50 @@ public class AjouterUsageFragment extends Fragment {
                                 .setCallback((e2, res2) -> {
                                     if (res2 != null && res2.get("status").getAsString().equals("success")) {
                                         Toast.makeText(getContext(), "✅ Équipement ajouté au créneau", Toast.LENGTH_SHORT).show();
-                                        // 🧼 Reset les sélections après ajout
+
+                                        // Reset
                                         autoAppliances.setText("");
                                         autoTimeSlots.setText("");
-                                        selectedAppliance = null;
-                                        selectedTimeSlot = null;
+
+                                        // 🔄 Appel apply_eco_coin.php
+                                        JsonObject ecoBody = new JsonObject();
+                                        ecoBody.addProperty("user_id", userId);
+                                        ecoBody.addProperty("time_slot_id", selectedTimeSlot.id);
+
+                                        Ion.with(this)
+                                                .load("POST", "http://10.0.2.2/powerhome_server/apply_eco_coin.php")
+                                                .setHeader("Content-Type", "application/json")
+                                                .setJsonObjectBody(ecoBody)
+                                                .asJsonObject()
+                                                .setCallback((err, ecoRes) -> {
+                                                    if (ecoRes != null && ecoRes.has("amount")) {
+                                                        int amount = ecoRes.get("amount").getAsInt();
+                                                        String reason = ecoRes.get("reason").getAsString();
+                                                        showEcoCoinDialog(amount, reason);
+                                                    }
+
+                                                    autoAppliances.setText("");
+                                                    autoTimeSlots.setText("");
+                                                    selectedAppliance = null;
+                                                    selectedTimeSlot = null;
+                                                });
+
                                     } else {
                                         Toast.makeText(getContext(), "❌ Erreur lors de l'ajout", Toast.LENGTH_SHORT).show();
                                     }
                                 });
                     }
                 });
+    }
+
+    private void showEcoCoinDialog(int amount, String reason) {
+        String title = amount > 0 ? "🟢 Bonus éco-coin !" : "🔴 Malus éco-coin";
+        String message = (amount > 0 ? "+" : "") + amount + " éco-coin(s)\n\n" + reason;
+
+        new AlertDialog.Builder(getContext())
+                .setTitle(title)
+                .setMessage(message)
+                .setPositiveButton("OK", null)
+                .show();
     }
 }
