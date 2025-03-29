@@ -16,7 +16,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Créer un créneau"
+            android:text="@string/cr_er_un_cr_neau"
             android:textSize="20sp"
             android:textStyle="bold"
             android:textColor="#333333" />
@@ -36,7 +36,7 @@
             android:id="@+id/btnSelectDate"
             android:layout_width="match_parent"
             android:layout_height="48dp"
-            android:text="Sélectionner la date"
+            android:text="@string/s_lectionner_la_date"
             android:textAllCaps="false" />
 
         <Button
@@ -44,7 +44,7 @@
             android:layout_width="match_parent"
             android:layout_height="48dp"
             android:layout_marginTop="12dp"
-            android:text="Sélectionner l'heure de début"
+            android:text="@string/s_lectionner_l_heure_de_d_but"
             android:textAllCaps="false" />
 
         <Button
@@ -52,7 +52,7 @@
             android:layout_width="match_parent"
             android:layout_height="48dp"
             android:layout_marginTop="20dp"
-            android:text="Créer le créneau"
+            android:text="@string/cr_er_le_cr_neau"
             android:textAllCaps="false"
             android:backgroundTint="@color/teal_700"
             android:textColor="#FFFFFF" />

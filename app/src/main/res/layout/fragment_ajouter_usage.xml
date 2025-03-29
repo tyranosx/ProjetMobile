@@ -21,7 +21,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Ajouter un équipement à un créneau"
+                android:text="@string/ajouter_un_quipement_un_cr_neau"
                 android:textSize="20sp"
                 android:textStyle="bold"
                 android:textColor="#333333" />
@@ -40,7 +40,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Équipement"
+                android:text="@string/quipement"
                 android:textStyle="bold"
                 android:layout_marginBottom="4dp" />
 
@@ -48,7 +48,7 @@
                 android:id="@+id/autoAppliances"
                 android:layout_width="match_parent"
                 android:layout_height="48dp"
-                android:hint="Choisissez un équipement"
+                android:hint="@string/choisissez_un_quipement"
                 android:inputType="text"
                 android:focusable="true"
                 android:focusableInTouchMode="true" />
@@ -56,7 +56,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Créneau"
+                android:text="@string/cr_neau"
                 android:textStyle="bold"
                 android:layout_marginTop="16dp"
                 android:layout_marginBottom="4dp" />
@@ -65,7 +65,7 @@
                 android:id="@+id/autoTimeSlots"
                 android:layout_width="match_parent"
                 android:layout_height="48dp"
-                android:hint="Choisissez un créneau"
+                android:hint="@string/choisissez_un_cr_neau"
                 android:inputType="text"
                 android:focusable="true"
                 android:focusableInTouchMode="true" />
@@ -74,7 +74,7 @@
                 android:id="@+id/btnAjouterUsage"
                 android:layout_width="match_parent"
                 android:layout_height="48dp"
-                android:text="Déclarer l'utilisation"
+                android:text="@string/d_clarer_l_utilisation"
                 android:textColor="#FFFFFF"
                 android:textAllCaps="false"
                 android:layout_marginTop="24dp"

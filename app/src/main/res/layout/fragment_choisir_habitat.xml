@@ -15,7 +15,7 @@
         android:id="@+id/btnChoisirHabitat"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Choisir cet habitat"
+        android:text="@string/choisir_cet_habitat"
         android:layout_marginTop="16dp"
         android:backgroundTint="@color/teal_700"
         android:textColor="@android:color/white"/>

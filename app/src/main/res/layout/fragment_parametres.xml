@@ -13,7 +13,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Paramètres"
+            android:text="@string/param_tres"
             android:textSize="24sp"
             android:textStyle="bold"
             android:textColor="#222222"
@@ -23,7 +23,7 @@
             android:id="@+id/txtSoldeEcoCoins"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Chargement du solde..."
+            android:text="@string/chargement_du_solde"
             android:textSize="18sp"
             android:textColor="#444444"
             android:padding="16dp"
@@ -35,7 +35,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="📜 Historique des transactions"
+            android:text="@string/historique_des_transactions"
             android:textStyle="bold"
             android:textSize="16sp"
             android:textColor="#333333"

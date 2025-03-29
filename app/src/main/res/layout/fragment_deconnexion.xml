@@ -11,7 +11,7 @@
         android:id="@+id/tvLogoutMessage"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Souhaitez-vous vous déconnecter ?"
+        android:text="@string/souhaitez_vous_vous_d_connecter"
         android:textSize="18sp"
         android:textColor="#333333"
         android:layout_marginBottom="24dp" />
@@ -20,7 +20,7 @@
         android:id="@+id/btnLogout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Se déconnecter"
+        android:text="@string/se_d_connecter"
         android:backgroundTint="#FF4444"
         android:textColor="#FFFFFF" />
 </LinearLayout>

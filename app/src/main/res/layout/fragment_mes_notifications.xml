@@ -40,7 +40,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="⚡ Engagements à venir"
+            android:text="@string/engagements_venir"
             android:textStyle="bold"
             android:textColor="#000000" />
 
@@ -48,7 +48,7 @@
             android:id="@+id/btnVoirMesEngagements"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Voir"
+            android:text="@string/voir"
             android:textColor="#FFFFFF"
             android:backgroundTint="@color/teal_700"
             android:paddingLeft="16dp"

@@ -52,7 +52,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Faible (0-30%)"
+                android:text="@string/faible_0_30"
                 android:textSize="12sp"/>
         </LinearLayout>
 
@@ -70,7 +70,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Modérée (30-70%)"
+                android:text="@string/mod_r_e_30_70"
                 android:textSize="12sp"/>
         </LinearLayout>
 
@@ -87,7 +87,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Forte (70-100%)"
+                android:text="@string/forte_70_100"
                 android:textSize="12sp"/>
         </LinearLayout>
     </LinearLayout>

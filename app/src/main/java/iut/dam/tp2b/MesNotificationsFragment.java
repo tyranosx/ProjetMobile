@@ -2,9 +2,7 @@ package iut.dam.tp2b;
 
 import android.app.AlarmManager;
 import android.app.PendingIntent;
-import android.content.Context;
-import android.content.Intent;
-import android.content.SharedPreferences;
+import android.content.*;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.*;
@@ -21,13 +19,16 @@ import com.koushikdutta.ion.Ion;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
+// Fragment affichant les créneaux critiques disponibles et gérant les engagements utilisateur
 public class MesNotificationsFragment extends Fragment {
 
     private RecyclerView recyclerView;
     private CriticalSlotAdapter adapter;
     private List<CriticalSlot> criticalSlotList = new ArrayList<>();
+
     private SharedPreferences prefs;
     private static final String PREF_ENGAGED_SLOTS = "engaged_slots";
+
     private TextView tvUpcomingEngagements;
     private LinearLayout layoutBanner;
     private Button btnVoirMesEngagements;
@@ -37,15 +38,20 @@ public class MesNotificationsFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater,
                              @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
+
         View view = inflater.inflate(R.layout.fragment_mes_notifications, container, false);
 
+        // 📦 Préférences utilisateur (session)
         prefs = requireActivity().getSharedPreferences("user_session", Context.MODE_PRIVATE);
 
+        // 🔧 Initialisation UI
         recyclerView = view.findViewById(R.id.recyclerCriticalSlots);
         tvUpcomingEngagements = view.findViewById(R.id.tvUpcomingEngagements);
         layoutBanner = view.findViewById(R.id.layoutBanner);
         btnVoirMesEngagements = view.findViewById(R.id.btnVoirMesEngagements);
+
         btnVoirMesEngagements.setOnClickListener(v -> {
+            // ➡️ Navigation vers la liste des engagements utilisateur
             getParentFragmentManager()
                     .beginTransaction()
                     .replace(R.id.fragmentContainer, new MesEngagementsFragment())
@@ -57,10 +63,13 @@ public class MesNotificationsFragment extends Fragment {
         adapter = new CriticalSlotAdapter(getContext(), criticalSlotList, this::handleEngagementToggle, false);
         recyclerView.setAdapter(adapter);
 
+        // 🔄 Récupération des créneaux critiques à l'affichage
         fetchCriticalSlots();
+
         return view;
     }
 
+    // 🔁 Fonction appelée lorsqu’un utilisateur engage ou désengage un créneau
     private void handleEngagementToggle(CriticalSlot slot) {
         int userId = prefs.getInt("user_id", -1);
         if (userId == -1) {
@@ -69,6 +78,7 @@ public class MesNotificationsFragment extends Fragment {
         }
 
         if (slot.isEngaged()) {
+            // ❌ Confirmation avant désengagement
             new AlertDialog.Builder(requireContext())
                     .setTitle("Annuler l'engagement ?")
                     .setMessage("Souhaitez-vous vous désengager de ce créneau critique ?")
@@ -88,6 +98,7 @@ public class MesNotificationsFragment extends Fragment {
                                         cancelNotification(slot);
                                         adapter.notifyDataSetChanged();
 
+                                        // 🔁 Mise à jour des préférences locales
                                         Set<String> engagedSet = new HashSet<>(prefs.getStringSet(PREF_ENGAGED_SLOTS, new HashSet<>()));
                                         engagedSet.remove(String.valueOf(slot.getId()));
                                         prefs.edit().putStringSet(PREF_ENGAGED_SLOTS, engagedSet).apply();
@@ -101,6 +112,7 @@ public class MesNotificationsFragment extends Fragment {
                     .show();
 
         } else {
+            // ✅ Engagement (POST vers l'API)
             JsonObject data = new JsonObject();
             data.addProperty("user_id", userId);
             data.addProperty("time_slot_id", slot.getId());
@@ -127,6 +139,7 @@ public class MesNotificationsFragment extends Fragment {
         }
     }
 
+    // 🌐 Récupère les créneaux critiques depuis l'API
     private void fetchCriticalSlots() {
         String url = "http://10.0.2.2/powerhome_server/get_critical_slots.php";
         Set<String> engagedIds = prefs.getStringSet(PREF_ENGAGED_SLOTS, new HashSet<>());
@@ -149,7 +162,7 @@ public class MesNotificationsFragment extends Fragment {
                             int id = slot.get("id").getAsInt();
 
                             boolean isEngaged = slot.has("is_engaged") && slot.get("is_engaged").getAsBoolean();
-                            isEngaged = isEngaged || engagedIds.contains(String.valueOf(id));
+                            isEngaged = isEngaged || engagedIds.contains(String.valueOf(id)); // sécurité
 
                             CriticalSlot c = new CriticalSlot(
                                     id,
@@ -164,7 +177,7 @@ public class MesNotificationsFragment extends Fragment {
                             criticalSlotList.add(c);
                         }
 
-                        // 🔽 Trie les créneaux par ordre chronologique
+                        // 🔀 Trie par date croissante
                         Collections.sort(criticalSlotList, (a, b) -> {
                             try {
                                 SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.getDefault());
@@ -182,6 +195,7 @@ public class MesNotificationsFragment extends Fragment {
                 });
     }
 
+    // 🔔 Met à jour la bannière en haut de l’écran avec l’engagement à venir
     private void updateUpcomingEngagementsBanner() {
         int count = 0;
         Calendar now = Calendar.getInstance();
@@ -212,16 +226,17 @@ public class MesNotificationsFragment extends Fragment {
             layoutBanner.startAnimation(AnimationUtils.loadAnimation(getContext(), R.anim.slide_in_top));
             tvUpcomingEngagements.setText("⚡ Prochain engagement : " + nextEngagement.getHourRange() + " le " + nextEngagement.getDate());
 
+            // Sauvegarde locale de la date/heure pour éventuel affichage ailleurs
             prefs.edit()
                     .putString("next_slot_date", nextEngagement.getDate())
                     .putString("next_slot_hour", nextEngagement.getHourRange())
                     .apply();
-
         } else {
             layoutBanner.setVisibility(View.GONE);
         }
     }
 
+    // 📅 Planifie une notification 10 minutes avant un créneau engagé
     private void scheduleNotification(CriticalSlot slot) {
         try {
             String[] hourParts = slot.getHourRange().split(" - ");
@@ -231,9 +246,9 @@ public class MesNotificationsFragment extends Fragment {
             Date slotTime = sdf.parse(dateTimeStr);
             if (slotTime == null) return;
 
-            long triggerTime = slotTime.getTime() - 10 * 60 * 1000;
+            long triggerTime = slotTime.getTime() - 10 * 60 * 1000; // 10 minutes avant
             if (triggerTime < System.currentTimeMillis()) {
-                triggerTime = System.currentTimeMillis() + 1000;
+                triggerTime = System.currentTimeMillis() + 1000; // pour éviter l’exécution immédiate
             }
 
             Intent intent = new Intent(getContext(), NotificationReceiver.class);
@@ -255,6 +270,7 @@ public class MesNotificationsFragment extends Fragment {
         }
     }
 
+    // ❌ Annule une notification déjà planifiée
     private void cancelNotification(CriticalSlot slot) {
         Intent intent = new Intent(getContext(), NotificationReceiver.class);
         PendingIntent pendingIntent = PendingIntent.getBroadcast(

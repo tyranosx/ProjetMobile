@@ -14,17 +14,20 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
+// Adapter personnalisé pour afficher la liste des créneaux critiques dans un RecyclerView
 public class CriticalSlotAdapter extends RecyclerView.Adapter<CriticalSlotAdapter.SlotViewHolder> {
 
     private Context context;
     private List<CriticalSlot> slotList;
     private OnEngageClickListener engageClickListener;
-    private boolean showCancelButton = false;
+    private boolean showCancelButton = false; // active/désactive mode annulation
 
+    // Interface pour gérer le clic sur un bouton "Je m'engage" ou "Annuler"
     public interface OnEngageClickListener {
         void onEngage(CriticalSlot slot);
     }
 
+    // Constructeur
     public CriticalSlotAdapter(Context context, List<CriticalSlot> slotList,
                                OnEngageClickListener listener, boolean showCancelButton) {
         this.context = context;
@@ -36,6 +39,7 @@ public class CriticalSlotAdapter extends RecyclerView.Adapter<CriticalSlotAdapte
     @NonNull
     @Override
     public SlotViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        // Crée une vue pour chaque item de la liste
         View view = LayoutInflater.from(context).inflate(R.layout.item_critical_slot, parent, false);
         return new SlotViewHolder(view);
     }
@@ -44,16 +48,18 @@ public class CriticalSlotAdapter extends RecyclerView.Adapter<CriticalSlotAdapte
     public void onBindViewHolder(@NonNull SlotViewHolder holder, int position) {
         CriticalSlot slot = slotList.get(position);
 
+        // Remplit les données dans les vues
         holder.tvDate.setText(slot.getDate());
         holder.tvHour.setText(slot.getHourRange());
         holder.tvConso.setText("Max : " + slot.getMaxWattage() + "W - Actuel : " + slot.getCurrentWattage() + "W");
 
-        // 🔥 Badge critique avec animation si imminent (<15min)
+        // 🔥 Affiche un badge "critique" si la consommation dépasse 95% de la limite
         if ((float) slot.getCurrentWattage() / slot.getMaxWattage() >= 0.95f) {
             holder.tvBadge.setVisibility(View.VISIBLE);
             holder.tvBadge.setText(R.string.critique);
 
             try {
+                // Vérifie si le créneau est imminent (< 15 minutes) pour animer le badge
                 SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.getDefault());
                 Date slotDateTime = sdf.parse(slot.getDate() + " " + slot.getHourRange().split(" - ")[0]);
 
@@ -67,23 +73,25 @@ public class CriticalSlotAdapter extends RecyclerView.Adapter<CriticalSlotAdapte
                 holder.tvBadge.clearAnimation();
             }
         } else {
+            // Sinon, on cache le badge
             holder.tvBadge.setVisibility(View.GONE);
             holder.tvBadge.clearAnimation();
         }
 
-
-        // 📍 Mode lecture ou annulation
+        // 📍 Gestion des différents états du bouton selon le mode
         if (slot.isEngaged()) {
             if (showCancelButton) {
+                // Si l'utilisateur est engagé et qu'on est en mode annulation
                 holder.btnEngager.setText(R.string.annuler);
                 holder.btnEngager.setEnabled(true);
                 holder.btnEngager.setAlpha(1f);
             } else {
+                // L'utilisateur est engagé mais mode lecture, bouton désactivé
                 holder.btnEngager.setText(R.string.engag);
                 holder.btnEngager.setEnabled(false);
                 holder.btnEngager.setAlpha(0.6f);
 
-                // 💥 Petite animation cool
+                // Petite animation sympa du bouton engagé
                 holder.btnEngager.setScaleX(0.8f);
                 holder.btnEngager.setScaleY(0.8f);
                 holder.btnEngager.setAlpha(0f);
@@ -96,17 +104,18 @@ public class CriticalSlotAdapter extends RecyclerView.Adapter<CriticalSlotAdapte
                         .start();
             }
         } else {
+            // Si non engagé : bouton actif (sauf en mode lecture)
             holder.btnEngager.setText(R.string.je_m_engage);
-            holder.btnEngager.setEnabled(!showCancelButton); // désactivé si en mode lecture
+            holder.btnEngager.setEnabled(!showCancelButton);
             holder.btnEngager.setAlpha(showCancelButton ? 0f : 1f);
             holder.btnEngager.setScaleX(1f);
             holder.btnEngager.setScaleY(1f);
         }
 
-        // 🎯 Gérer clic selon mode
+        // 🎯 Gestion du clic sur le bouton
         holder.btnEngager.setOnClickListener(v -> {
             if (slot.isEngaged() && showCancelButton) {
-                // 💬 Confirmation annulation
+                // 💬 Confirmation si désengagement
                 new androidx.appcompat.app.AlertDialog.Builder(context)
                         .setTitle("Annuler l'engagement ?")
                         .setMessage("Souhaitez-vous vraiment vous désengager de ce créneau critique ?")
@@ -125,7 +134,7 @@ public class CriticalSlotAdapter extends RecyclerView.Adapter<CriticalSlotAdapte
             }
         });
 
-        // 🎬 Animation slide in
+        // 🎬 Animation d'apparition de l'item
         Animation anim = AnimationUtils.loadAnimation(context, R.anim.slide_in_bottom);
         holder.itemView.startAnimation(anim);
     }
@@ -135,6 +144,7 @@ public class CriticalSlotAdapter extends RecyclerView.Adapter<CriticalSlotAdapte
         return slotList.size();
     }
 
+    // ViewHolder qui contient les composants de l'item du RecyclerView
     static class SlotViewHolder extends RecyclerView.ViewHolder {
         TextView tvDate, tvHour, tvConso, tvBadge;
         Button btnEngager;

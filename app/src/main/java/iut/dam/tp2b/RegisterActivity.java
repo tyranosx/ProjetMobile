@@ -8,15 +8,19 @@ import android.util.Patterns;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.*;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
+
 import com.koushikdutta.ion.Ion;
 import com.google.gson.JsonObject;
+
 import java.util.ArrayList;
 import java.util.List;
 
+// Activité permettant à un nouvel utilisateur de s’enregistrer
 public class RegisterActivity extends AppCompatActivity {
 
     private EditText etFirstName, etLastName, etEmail, etPassword, etConfirmPassword, etPhoneNumber;
@@ -30,7 +34,7 @@ public class RegisterActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
 
-        // Liaison avec les éléments XML
+        // 🔗 Liaison avec la vue XML
         etFirstName = findViewById(R.id.etFirstName);
         etLastName = findViewById(R.id.etLastName);
         etEmail = findViewById(R.id.etEmail);
@@ -42,9 +46,9 @@ public class RegisterActivity extends AppCompatActivity {
         btnFacebookLogin = findViewById(R.id.btnFacebookLogin);
         btnBack = findViewById(R.id.btnBack);
 
-        btnBack.setOnClickListener(v -> finish()); // Retour
+        btnBack.setOnClickListener(v -> finish()); // 🔙 Bouton retour
 
-        // Initialisation spinner pays
+        // 🌍 Initialisation du spinner avec les indicatifs pays
         countryCodes = new ArrayList<>();
         countryCodes.add("Sélectionnez votre code pays");
         countryCodes.add("+33 France");
@@ -58,11 +62,12 @@ public class RegisterActivity extends AppCompatActivity {
         countryCodes.add("+86 China");
         countryCodes.add("+91 India");
 
+        // 🎛️ Adapter pour le spinner avec désactivation du 1er item (placeholder)
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(
                 this, android.R.layout.simple_spinner_item, countryCodes) {
             @Override
             public boolean isEnabled(int position) {
-                return position != 0;
+                return position != 0; // Empêche la sélection du "hint"
             }
 
             @Override
@@ -76,12 +81,14 @@ public class RegisterActivity extends AppCompatActivity {
         };
 
         spinnerCountryCode.setAdapter(adapter);
-        spinnerCountryCode.setSelection(0);
+        spinnerCountryCode.setSelection(0); // Sélection par défaut = hint
 
+        // ▶️ Actions sur les boutons
         btnRegister.setOnClickListener(v -> handleRegister());
         btnFacebookLogin.setOnClickListener(v -> Toast.makeText(this, "Connexion Facebook pas encore dispo", Toast.LENGTH_SHORT).show());
     }
 
+    // 🔍 Vérifie et traite les données saisies avant envoi
     private void handleRegister() {
         String firstName = etFirstName.getText().toString().trim();
         String lastName = etLastName.getText().toString().trim();
@@ -91,6 +98,7 @@ public class RegisterActivity extends AppCompatActivity {
         String phoneNumber = etPhoneNumber.getText().toString().trim();
         int selectedPosition = spinnerCountryCode.getSelectedItemPosition();
 
+        // 🔒 Vérifications des champs
         if (firstName.isEmpty() || lastName.isEmpty()) {
             showToast("Veuillez renseigner votre prénom et nom");
             return;
@@ -116,10 +124,14 @@ public class RegisterActivity extends AppCompatActivity {
             return;
         }
 
+        // ☎️ On extrait juste le code pays (ex: +33)
         String countryCode = countryCodes.get(selectedPosition).split(" ")[0];
+
+        // 🌐 Envoi des données vers l’API
         sendRegistrationToServer(firstName, lastName, email, password, phoneNumber, countryCode);
     }
 
+    // 🔐 Règles de sécurité sur le mot de passe
     private boolean isValidPassword(String password) {
         return password.length() >= 8 &&
                 password.matches(".*[A-Z].*") &&
@@ -127,21 +139,24 @@ public class RegisterActivity extends AppCompatActivity {
                 password.matches(".*[!@#$%^&*(),.?\":{}|<>].*");
     }
 
+    // 📣 Affiche un message court
     private void showToast(String msg) {
         Toast.makeText(this, msg, Toast.LENGTH_LONG).show();
     }
 
+    // Envoie les infos à l'API d'enregistrement
     private void sendRegistrationToServer(String firstName, String lastName, String email, String password, String phoneNumber, String countryCode) {
         String apiUrl = "http://10.0.2.2/powerhome_server/register.php";
 
         Log.d("RegisterActivity", "Appel API en cours...");
 
+        // Objet à envoyer
         RegistrationRequest request = new RegistrationRequest(firstName, lastName, email, password, phoneNumber, countryCode);
 
         Ion.with(this)
                 .load("POST", apiUrl)
                 .setHeader("Content-Type", "application/json")
-                .setJsonPojoBody(request)
+                .setJsonPojoBody(request) // Conversion automatique en JSON
                 .asJsonObject()
                 .setCallback((e, result) -> {
                     if (e != null) {
@@ -155,29 +170,24 @@ public class RegisterActivity extends AppCompatActivity {
                     if (result != null && "success".equals(result.get("status").getAsString())) {
                         showToast("✅ Inscription réussie !");
 
-                        // ✅ Sauvegarde dans SharedPreferences
+                        // Sauvegarde locale des infos utilisateur
                         int userId = result.has("user_id") && !result.get("user_id").isJsonNull()
-                                ? result.get("user_id").getAsInt()
-                                : -1;
+                                ? result.get("user_id").getAsInt() : -1;
                         int habitatId = result.has("habitat_id") && !result.get("habitat_id").isJsonNull()
-                                ? result.get("habitat_id").getAsInt()
-                                : -1;  // ou tu peux mettre 0 ou un autre indicateur
-
+                                ? result.get("habitat_id").getAsInt() : -1;
 
                         if (userId != -1) {
                             SharedPreferences prefs = getSharedPreferences("user_session", MODE_PRIVATE);
                             SharedPreferences.Editor editor = prefs.edit();
                             editor.putInt("user_id", userId);
                             editor.putInt("habitat_id", habitatId);
-
-                            // ⏱ Fake token pour le moment
                             editor.putString("token", "registered_token_" + userId);
-                            editor.putString("expired_at", "2099-12-31");
+                            editor.putString("expired_at", "2099-12-31"); // Valeur fake pour test
 
                             editor.apply();
                         }
 
-                        // 🚀 Redirection vers MainActivity
+                        // 🔁 Redirection automatique vers l’app principale
                         Intent intent = new Intent(RegisterActivity.this, MainActivity.class);
                         startActivity(intent);
                         finish();
@@ -188,5 +198,4 @@ public class RegisterActivity extends AppCompatActivity {
                     }
                 });
     }
-
 }

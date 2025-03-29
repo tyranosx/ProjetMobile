@@ -23,7 +23,7 @@
         android:id="@+id/tvTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Liste des résidents"
+        android:text="@string/liste_des_r_sidents"
         android:textSize="22sp"
         android:textStyle="bold"
         android:textColor="@android:color/black"

@@ -24,13 +24,13 @@ public class LoginActivity extends AppCompatActivity {
     private Button btnLogin, btnRegister, btnFacebookLogin, btnEditProfile;
     private TextView tvForgotPassword;
 
-    private boolean isPasswordVisible = false;
+    private boolean isPasswordVisible = false; // pour gérer l'affichage ou non du mot de passe
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        // 🔐 Si utilisateur déjà connecté -> skip Login
+        // 🔐 Vérifie si l’utilisateur est déjà connecté → redirection automatique
         SharedPreferences prefs = getSharedPreferences("user_session", MODE_PRIVATE);
         int userId = prefs.getInt("user_id", -1);
         if (userId != -1) {
@@ -39,8 +39,10 @@ public class LoginActivity extends AppCompatActivity {
             return;
         }
 
+        // 🖼️ Affiche le layout de login
         setContentView(R.layout.activity_login);
 
+        // Initialisation des vues et mise en forme des champs
         etEmail = findViewById(R.id.etEmail);
         etEmail.setHint("E-mail");
         etEmail.setHintTextColor(getResources().getColor(android.R.color.darker_gray));
@@ -54,7 +56,10 @@ public class LoginActivity extends AppCompatActivity {
         etPassword.setBackground(ContextCompat.getDrawable(this, R.drawable.input_background_white));
         etPassword.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_lock_lock, 0, 0, 0);
 
+        // 👁️‍🗨️ Affiche/cache le mot de passe
         btnTogglePassword = findViewById(R.id.btnTogglePassword);
+
+        // 📲 Gestion des actions sur les boutons
         btnLogin = findViewById(R.id.btnLogin);
         btnRegister = findViewById(R.id.btnRegister);
         btnFacebookLogin = findViewById(R.id.btnFacebookLogin);
@@ -70,11 +75,13 @@ public class LoginActivity extends AppCompatActivity {
         btnEditProfile.setOnClickListener(v -> handleEditProfile());
     }
 
+    // Intent pour aller vers EditProfileActivity pour modifier le profil
     private void handleEditProfile() {
         Intent intent = new Intent(LoginActivity.this, EditProfileActivity.class);
         startActivity(intent);
     }
 
+    // 🔄 Bascule la visibilité du mot de passe (texte ou caché)
     private void togglePasswordVisibility() {
         if (isPasswordVisible) {
             etPassword.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
@@ -87,19 +94,23 @@ public class LoginActivity extends AppCompatActivity {
         isPasswordVisible = !isPasswordVisible;
     }
 
+    // 🔐 Connexion utilisateur → appel de l’API login
     private void handleLogin() {
         String email = etEmail.getText().toString().trim();
         String password = etPassword.getText().toString().trim();
 
+        // ✅ Vérifie que l'email est bien au bon format
         if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
             Toast.makeText(this, "Veuillez respecter le format de l'e-mail", Toast.LENGTH_SHORT).show();
             return;
         }
 
+        // Construction de l’URL pour la requête GET
         String apiUrl = "http://10.0.2.2/powerhome_server/login.php"
                 + "?email=" + Uri.encode(email)
                 + "&password=" + Uri.encode(password);
 
+        // Envoi de la requête avec Ion
         Ion.with(this)
                 .load("GET", apiUrl)
                 .asJsonObject()
@@ -113,6 +124,7 @@ public class LoginActivity extends AppCompatActivity {
                         String status = result.get("status").getAsString();
 
                         if ("success".equals(status)) {
+                            // ✅ Connexion réussie → récupère les données
                             String token = result.get("token").getAsString();
                             String expire = result.get("expired_at").getAsString();
                             int userId = result.has("user_id") && !result.get("user_id").isJsonNull()
@@ -127,6 +139,7 @@ public class LoginActivity extends AppCompatActivity {
                                     ? result.get("habitat_id").getAsInt()
                                     : -1;
 
+                            // 💾 Stockage local (SharedPreferences)
                             SharedPreferences prefs = getSharedPreferences("user_session", MODE_PRIVATE);
                             SharedPreferences.Editor editor = prefs.edit();
                             editor.putInt("user_id", userId); // ✅ sauvegarde
@@ -137,11 +150,13 @@ public class LoginActivity extends AppCompatActivity {
 
                             Toast.makeText(this, "✅ Connexion réussie !", Toast.LENGTH_SHORT).show();
 
+                            // Redirection vers l'écran principal
                             Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                             intent.putExtra("token", token);
                             startActivity(intent);
                             finish();
                         } else {
+                            // ❌ Mauvais identifiants ou autre erreur
                             String msg = result.has("message") ? result.get("message").getAsString() : "Erreur inconnue";
                             Toast.makeText(this, "❌ " + msg, Toast.LENGTH_LONG).show();
                         }
@@ -151,16 +166,18 @@ public class LoginActivity extends AppCompatActivity {
                 });
     }
 
+    // 🔁 Redirection vers l'écran d'inscription
     private void handleRegister() {
         Intent intent = new Intent(LoginActivity.this, RegisterActivity.class);
         startActivity(intent);
     }
 
+    // 🧠 Connexion Facebook
     private void handleFacebookLogin() {
         Toast.makeText(this, "Connexion via Facebook en cours...", Toast.LENGTH_SHORT).show();
-        // Ici tu peux intégrer ton SDK Facebook ou rediriger vers ton flow d'authentification
     }
 
+    // 🔄 Mot de passe oublié → redirection
     private void handleForgotPassword() {
         Intent intent = new Intent(LoginActivity.this, ForgotPasswordActivity.class);
         startActivity(intent);

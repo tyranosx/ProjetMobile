@@ -7,21 +7,22 @@ import com.google.gson.annotations.SerializedName;
 import java.lang.reflect.Type;
 import java.util.List;
 
+// Classe représentant un habitat dans la résidence
 public class Habitat {
 
-    @SerializedName("residentName")  // Correspondance avec le JSON
+    @SerializedName("residentName")  // Liaison avec le champ "residentName" du JSON
     private final String residentName;
 
-    @SerializedName("floor")
+    @SerializedName("floor")         // Étage de l'habitat
     private final int floor;
 
-    @SerializedName("area")
+    @SerializedName("area")          // Surface de l'habitat en m²
     private final double area;
 
-    @SerializedName("appliances")
+    @SerializedName("appliances")    // Nombre d’équipements présents dans l’habitat
     private final int appliances;
 
-    @SerializedName("equipmentIcons")
+    @SerializedName("equipmentIcons") // Liste des icônes associés aux équipements
     private final List<Integer> equipmentIcons;
 
     // Constructeur
@@ -54,13 +55,13 @@ public class Habitat {
         return equipmentIcons;
     }
 
-    // Méthode pour parser un objet Habitat depuis un JSON
+    // 🧩 Convertit une chaîne JSON en objet Habitat
     public static Habitat getFromJson(String json) {
         Gson gson = new Gson();
         return gson.fromJson(json, Habitat.class);
     }
 
-    // Méthode pour parser une liste d'objets Habitat depuis un JSON
+    // 🧩 Convertit un JSON en liste d'objets Habitat
     public static List<Habitat> getListFromJson(String json) {
         Gson gson = new Gson();
         Type type = new TypeToken<List<Habitat>>() {}.getType();

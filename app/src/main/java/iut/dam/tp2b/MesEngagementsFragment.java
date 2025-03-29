@@ -13,12 +13,15 @@ import com.google.gson.*;
 import com.koushikdutta.ion.Ion;
 import java.util.*;
 
+// Fragment affichant la liste des créneaux critiques sur lesquels l'utilisateur s'est engagé
 public class MesEngagementsFragment extends Fragment {
 
     private RecyclerView recyclerView;
     private CriticalSlotAdapter adapter;
     private List<CriticalSlot> engagedSlots = new ArrayList<>();
     private SharedPreferences prefs;
+
+    // Clé utilisée pour stocker localement les ID des engagements
     private static final String PREF_ENGAGED_SLOTS = "engaged_slots";
 
     @Nullable
@@ -26,20 +29,27 @@ public class MesEngagementsFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater,
                              @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
+
         View view = inflater.inflate(R.layout.fragment_mes_engagements, container, false);
 
+        // 📦 Récupère les préférences (user_session)
         prefs = requireActivity().getSharedPreferences("user_session", Context.MODE_PRIVATE);
+
+        // 🔧 Mise en place du RecyclerView
         recyclerView = view.findViewById(R.id.recyclerEngagedSlots);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
+        // 🔁 Adapter avec la liste des créneaux engagés
         adapter = new CriticalSlotAdapter(getContext(), engagedSlots, this::handleDisengage, true);
         recyclerView.setAdapter(adapter);
 
+        // 🌐 Charge les engagements depuis l'API
         fetchEngagedSlots();
 
         return view;
     }
 
+    // 🔁 Récupère les créneaux critiques engagés depuis l'API
     private void fetchEngagedSlots() {
         int userId = prefs.getInt("user_id", -1);
         if (userId == -1) {
@@ -58,9 +68,8 @@ public class MesEngagementsFragment extends Fragment {
 
                     if (result.has("status") && result.get("status").getAsString().equals("success")) {
                         JsonArray slots = result.getAsJsonArray("critical_slots");
-                        engagedSlots.clear();
-
-                        Set<String> newPrefsSet = new HashSet<>();
+                        engagedSlots.clear(); // Nettoie la liste précédente
+                        Set<String> newPrefsSet = new HashSet<>(); // Pour mémoriser les ID localement
 
                         for (JsonElement element : slots) {
                             JsonObject slot = element.getAsJsonObject();
@@ -77,11 +86,13 @@ public class MesEngagementsFragment extends Fragment {
                                 );
                                 c.setEngaged(true);
                                 engagedSlots.add(c);
-                                newPrefsSet.add(String.valueOf(id));
+                                newPrefsSet.add(String.valueOf(id)); // Stocke l'engagement
                             }
                         }
 
+                        // 💾 Met à jour les engagements enregistrés en local
                         prefs.edit().putStringSet(PREF_ENGAGED_SLOTS, newPrefsSet).apply();
+
                         adapter.notifyDataSetChanged();
 
                         if (engagedSlots.isEmpty()) {
@@ -91,6 +102,7 @@ public class MesEngagementsFragment extends Fragment {
                 });
     }
 
+    // ❌ Désengage l'utilisateur d'un créneau critique (appel POST à l'API)
     private void handleDisengage(CriticalSlot slot) {
         int userId = prefs.getInt("user_id", -1);
         if (userId == -1) {
@@ -114,11 +126,13 @@ public class MesEngagementsFragment extends Fragment {
                     }
 
                     if (result.get("status").getAsString().equals("success")) {
+                        // 🔄 Retire le créneau de la liste et met à jour l'affichage
                         engagedSlots.remove(slot);
                         adapter.notifyDataSetChanged();
 
+                        // 💾 Supprime également l'engagement localement
                         Set<String> engagedSet = prefs.getStringSet(PREF_ENGAGED_SLOTS, new HashSet<>());
-                        engagedSet = new HashSet<>(engagedSet); // clone
+                        engagedSet = new HashSet<>(engagedSet); // clone (évite bug avec Set non modifiable)
                         engagedSet.remove(String.valueOf(slot.getId()));
                         prefs.edit().putStringSet(PREF_ENGAGED_SLOTS, engagedSet).apply();
 

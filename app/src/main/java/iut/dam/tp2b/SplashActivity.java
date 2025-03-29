@@ -6,18 +6,19 @@ import android.os.Handler;
 import android.os.Looper;
 import androidx.appcompat.app.AppCompatActivity;
 
+// 🎬 Écran de lancement affiché au démarrage de l’application
 public class SplashActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_splash);
+        setContentView(R.layout.activity_splash); // 🔗 layout avec logo/animation (activity_splash.xml)
 
-        // Délai de 3 secondes avant de passer à l'écran de connexion
+        // 🕒 Attente de 3 secondes avant de passer à LoginActivity
         new Handler(Looper.getMainLooper()).postDelayed(() -> {
             Intent intent = new Intent(SplashActivity.this, LoginActivity.class);
             startActivity(intent);
-            finish(); // Ferme la SplashActivity pour ne pas revenir dessus
-        }, 3000);
+            finish(); // ✅ Empêche de revenir à l'écran splash avec le bouton "retour"
+        }, 3000); // 3000 ms = 3 secondes
     }
 }

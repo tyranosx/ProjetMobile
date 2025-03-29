@@ -15,9 +15,11 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
+
 import java.util.ArrayList;
 import java.util.List;
 
+// Écran permettant à l'utilisateur de modifier ses informations personnelles
 public class EditProfileActivity extends AppCompatActivity {
 
     private EditText etFirstName, etLastName, etEmail, etPhoneNumber, etNewPassword, etConfirmPassword;
@@ -31,6 +33,7 @@ public class EditProfileActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_profile);
 
+        // 🔎 Récupération des vues depuis le layout XML
         etFirstName = findViewById(R.id.etFirstName);
         etLastName = findViewById(R.id.etLastName);
         etEmail = findViewById(R.id.etEmail);
@@ -42,11 +45,12 @@ public class EditProfileActivity extends AppCompatActivity {
         btnCancel = findViewById(R.id.btnCancel);
         btnBack = findViewById(R.id.btnBack); // Bouton retour
 
-        // Gestion du bouton retour
+        // ⬅️ Action du bouton retour (quitte l'activité)
         btnBack.setOnClickListener(v -> finish());
-        // Initialisation du Spinner avec hint
+
+        // 🌍 Initialisation du spinner de codes pays avec un hint en première position
         countryCodes = new ArrayList<>();
-        countryCodes.add("Sélectionnez votre code pays");
+        countryCodes.add("Sélectionnez votre code pays"); // Hint (non sélectionnable)
         countryCodes.add("+33 France");
         countryCodes.add("+1 USA");
         countryCodes.add("+44 UK");
@@ -58,12 +62,13 @@ public class EditProfileActivity extends AppCompatActivity {
         countryCodes.add("+86 China");
         countryCodes.add("+91 India");
 
+        // Adapter personnalisé pour griser la première ligne (hint)
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(
                 this, android.R.layout.simple_spinner_item, countryCodes) {
 
             @Override
             public boolean isEnabled(int position) {
-                return position != 0; // Désactive le hint
+                return position != 0; // Désactive la première ligne
             }
 
             @Override
@@ -71,8 +76,10 @@ public class EditProfileActivity extends AppCompatActivity {
                 View view = super.getView(position, convertView, parent);
                 TextView tv = (TextView) view;
                 if (position == 0) {
+                    // Hint grisé
                     tv.setTextColor(ContextCompat.getColor(getContext(), android.R.color.darker_gray));
                 } else {
+                    // Valeurs normales en noir
                     tv.setTextColor(ContextCompat.getColor(getContext(), android.R.color.black));
                 }
                 return view;
@@ -80,14 +87,15 @@ public class EditProfileActivity extends AppCompatActivity {
         };
 
         spinnerCountryCode.setAdapter(adapter);
-        spinnerCountryCode.setSelection(0); // Par défaut sur le hint
+        spinnerCountryCode.setSelection(0); // Position du hint par défaut
 
-        btnSaveChanges.setOnClickListener(v -> handleSaveChanges());
-        btnCancel.setOnClickListener(v -> finish());
+        // ✅ Gestion des boutons
+        btnSaveChanges.setOnClickListener(v -> handleSaveChanges()); // Simule la sauvegarde
+        btnCancel.setOnClickListener(v -> finish()); // Ferme l’activité
     }
-
     private void handleSaveChanges() {
+        // Ici on pourrait ajouter des validations (email, mot de passe, etc.)
         Toast.makeText(this, "Profil mis à jour avec succès!", Toast.LENGTH_LONG).show();
-        finish();
+        finish(); // Quitte l'écran après sauvegarde
     }
 }

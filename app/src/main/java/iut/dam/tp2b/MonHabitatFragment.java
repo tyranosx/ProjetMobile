@@ -4,18 +4,12 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.TextView;
-import android.widget.Toast;
-
+import android.view.*;
+import android.widget.*;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
+import androidx.recyclerview.widget.*;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
@@ -24,12 +18,14 @@ import com.koushikdutta.ion.Ion;
 import java.util.ArrayList;
 import java.util.List;
 
+// Fragment qui permet à l’utilisateur de gérer les équipements liés à son habitat
 public class MonHabitatFragment extends Fragment {
 
     private RecyclerView recyclerEquipments;
     private EquipmentAdapter adapter;
     private List<Equipment> equipmentList = new ArrayList<>();
-    private int userId; // TODO : remplacer par ID dynamique si besoin
+
+    private int userId;
 
     private TextView tvTotalWattage, tvWattageRemaining;
     private Button btnUpdateEquipments;
@@ -42,6 +38,7 @@ public class MonHabitatFragment extends Fragment {
 
         View view = inflater.inflate(R.layout.fragment_mon_habitat, container, false);
 
+        // 🔐 Récupération de l’ID utilisateur via les préférences
         SharedPreferences prefs = requireActivity().getSharedPreferences("user_session", Context.MODE_PRIVATE);
         userId = prefs.getInt("user_id", -1);
 
@@ -54,22 +51,27 @@ public class MonHabitatFragment extends Fragment {
             return view;
         }
 
+        // 🧱 Récupération des composants UI
         tvTotalWattage = view.findViewById(R.id.tvTotalWattage);
         tvWattageRemaining = view.findViewById(R.id.tvWattageRemaining);
         btnUpdateEquipments = view.findViewById(R.id.btnUpdateEquipments);
 
+        // 🔧 Configuration du RecyclerView
         recyclerEquipments = view.findViewById(R.id.recyclerEquipments);
         recyclerEquipments.setLayoutManager(new LinearLayoutManager(getContext()));
         adapter = new EquipmentAdapter(getContext(), equipmentList, this::updateTotalWattage);
         recyclerEquipments.setAdapter(adapter);
 
+        // ⬆️ Envoi des modifications au serveur
         btnUpdateEquipments.setOnClickListener(v -> sendUpdateToServer());
 
+        // 🌐 Récupération des équipements actuels
         fetchMyEquipments();
 
         return view;
     }
 
+    // Récupère les équipements de l’utilisateur depuis l’API
     private void fetchMyEquipments() {
         String url = "http://10.0.2.2/powerhome_server/get_my_equipments.php?user_id=" + userId;
 
@@ -86,6 +88,7 @@ public class MonHabitatFragment extends Fragment {
                         equipmentList.clear();
                         JsonArray eqs = result.getAsJsonArray("equipments");
 
+                        // 🔄 Ajoute chaque équipement à la liste
                         for (int i = 0; i < eqs.size(); i++) {
                             JsonObject eq = eqs.get(i).getAsJsonObject();
                             equipmentList.add(new Equipment(
@@ -93,13 +96,14 @@ public class MonHabitatFragment extends Fragment {
                                     eq.get("name").getAsString(),
                                     eq.get("reference").getAsString(),
                                     eq.get("wattage").getAsInt(),
-                                    true // précochés car ils sont déjà liés à l'habitat
+                                    true // coché par défaut
                             ));
                         }
 
                         adapter.notifyDataSetChanged();
-                        updateTotalWattage();
+                        updateTotalWattage(); // maj conso
 
+                        // Si une limite max est définie pour un créneau
                         if (result.has("max_wattage") && !result.get("max_wattage").isJsonNull()) {
                             int max = result.get("max_wattage").getAsInt();
                             int total = result.get("total_wattage").getAsInt();
@@ -115,6 +119,7 @@ public class MonHabitatFragment extends Fragment {
                 });
     }
 
+    // Calcule la puissance totale sélectionnée
     private void updateTotalWattage() {
         int total = 0;
         for (Equipment eq : equipmentList) {
@@ -123,6 +128,7 @@ public class MonHabitatFragment extends Fragment {
         tvTotalWattage.setText("Puissance totale : " + total + " W");
     }
 
+    // Envoie au serveur la nouvelle sélection d’équipements
     private void sendUpdateToServer() {
         JsonObject data = new JsonObject();
         data.addProperty("user_id", userId);

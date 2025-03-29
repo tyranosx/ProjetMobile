@@ -17,11 +17,13 @@ import android.view.MenuItem;
 import com.google.android.material.navigation.NavigationView;
 import android.widget.Toast;
 
+// Activité principale qui gère la navigation entre les fragments via un Drawer
 public class MainActivity extends AppCompatActivity {
 
     private DrawerLayout drawerLayout;
     private NavigationView navigationView;
     private Toolbar toolbar;
+
     private static final int PERMISSION_REQUEST_CODE = 101;
 
     @Override
@@ -29,25 +31,25 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        // Toolbar
+        // 🔧 Mise en place de la toolbar
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        // Drawer
+        // 📂 Mise en place du Drawer (menu latéral)
         drawerLayout = findViewById(R.id.drawerLayout);
         navigationView = findViewById(R.id.navigationView);
 
-        // Toggle
+        // 🔀 Lien entre le Drawer et la Toolbar (hamburger menu)
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawerLayout, toolbar,
                 R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawerLayout.addDrawerListener(toggle);
         toggle.syncState();
 
-        // Menu listener
+        // 🎯 Gestion du clic sur les éléments du menu
         navigationView.setNavigationItemSelectedListener(this::onNavigationItemSelected);
 
-        // Fragment par défaut
+        // 🧱 Fragment par défaut affiché au lancement
         if (savedInstanceState == null) {
             getSupportFragmentManager()
                     .beginTransaction()
@@ -56,15 +58,17 @@ public class MainActivity extends AppCompatActivity {
             navigationView.setCheckedItem(R.id.nav_habitat);
         }
 
-        // 🔐 Demander permission notifications
+        // 🔔 Demande la permission pour les notifications (Android 13+)
         askNotificationPermission();
     }
 
+    // 🔄 Appelé quand l'utilisateur sélectionne un item du menu
     private boolean onNavigationItemSelected(@NonNull MenuItem item) {
         Fragment selectedFragment = null;
 
         int itemId = item.getItemId();
 
+        // 🎯 On associe chaque item du menu à un fragment
         if (itemId == R.id.nav_habitat) {
             selectedFragment = new HabitatFragment();
         } else if (itemId == R.id.nav_mon_habitat) {
@@ -78,7 +82,7 @@ public class MainActivity extends AppCompatActivity {
         } else if (itemId == R.id.nav_ajouter_equipement) {
             selectedFragment = new AjouterEquipementFragment();
         } else if (itemId == R.id.nav_apropos) {
-            showAboutDialog();
+            showAboutDialog(); // 🧾 boîte de dialogue "À propos"
             return true;
         } else if (itemId == R.id.nav_deconnexion) {
             selectedFragment = new DeconnexionFragment();
@@ -92,16 +96,20 @@ public class MainActivity extends AppCompatActivity {
             selectedFragment = new CalendrierFragment();
         }
 
+        // 🔁 Remplacement du fragment courant par le nouveau
         if (selectedFragment != null) {
             getSupportFragmentManager()
                     .beginTransaction()
                     .replace(R.id.fragmentContainer, selectedFragment)
                     .commit();
         }
+
+        // Ferme le drawer après sélection
         drawerLayout.closeDrawers();
         return true;
     }
 
+    // 📄 Affiche une boîte de dialogue "À propos"
     private void showAboutDialog() {
         new AlertDialog.Builder(this)
                 .setTitle("À propos")
@@ -110,7 +118,7 @@ public class MainActivity extends AppCompatActivity {
                 .show();
     }
 
-    // 📲 Demande de permission pour les notifs (Android 13+)
+    // 📲 Demande la permission pour les notifications (uniquement Android 13+)
     private void askNotificationPermission() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             if (ContextCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS)
@@ -125,7 +133,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    // 🔁 Callback réponse utilisateur
+    // ✅ Réponse utilisateur à la demande de permission
     @Override
     public void onRequestPermissionsResult(int requestCode,
                                            @NonNull String[] permissions,
